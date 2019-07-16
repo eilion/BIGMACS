@@ -1,0 +1,7 @@
+data_type: both
+kernel_function: OU
+IsLearn_transition: no
+nSamples: 100
+start_age: -inf
+end_age: inf
+interval: 0.1
