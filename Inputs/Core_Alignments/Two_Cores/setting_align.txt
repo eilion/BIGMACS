@@ -1,0 +1,4 @@
+data_type: C14
+IsLearn_transition: no
+nSamples_learning: 100
+nSamples_drawing: 200
