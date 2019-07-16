@@ -1,0 +1,2 @@
+islearn_average_sed_rate: constant
+islearn_scale: yes
