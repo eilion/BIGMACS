@@ -1,8 +1,8 @@
 addpath('Codes/');
 
-inputFile = 'problem_cores';
+inputFile = 'EXAMPLE';
 
-inputMode = 'alignment';
-% inputMode = 'stacking';
+% inputMode = 'alignment';
+inputMode = 'stacking';
 
 BIGMACS(inputFile,inputMode);
