@@ -1,0 +1,17 @@
+ACC_MODEL: lognormal_depth
+start_depth: NaN
+end_depth: NaN
+initial_shift: NaN
+initial_scale: 1
+initial_average_sed_rate: NaN
+islearn_shift: yes
+islearn_scale: no
+islearn_average_sed_rate: adaptive
+lower_bound: NaN
+upper_bound: NaN
+min_resolution: 0.145675
+min_resolution_mode: absolute
+lower_sedrate: 1/6
+upper_sedrate: 6
+is_top_14C_inlier: yes
+14C_unit: centimeter_and_year

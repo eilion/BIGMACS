@@ -1,0 +1,6 @@
+data_type: both
+IsLearn_transition: no
+nSamples_learning: 100
+nSamples_drawing: 1000
+stack_min: -inf
+stack_max: inf

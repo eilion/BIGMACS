@@ -1,0 +1,6 @@
+variance: heteroscedastic
+kernel_function: M15
+start_age: -inf
+end_age: 40
+interval: 0.1
+interval_induced: 0.5
