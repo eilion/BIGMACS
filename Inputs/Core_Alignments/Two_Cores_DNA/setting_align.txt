@@ -1,4 +1,0 @@
-data_type: both
-IsLearn_transition: no
-nSamples_learning: 100
-nSamples_drawing: 200

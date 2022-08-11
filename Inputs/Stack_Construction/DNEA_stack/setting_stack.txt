@@ -1,5 +1,0 @@
-data_type: both
-kernel_function: SE
-IsLearn_transition: global
-start_age: 0
-end_age: 150

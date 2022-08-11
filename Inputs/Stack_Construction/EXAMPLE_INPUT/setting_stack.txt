@@ -1,7 +1,0 @@
-data_type: both
-kernel_function: OU
-IsLearn_transition: no
-nSamples: 200
-start_age: 0
-end_age: 150
-interval: 0.1
