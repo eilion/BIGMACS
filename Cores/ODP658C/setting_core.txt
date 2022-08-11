@@ -1,4 +1,0 @@
-islearn_average_sed_rate: adaptive
-lower_sedrate: 0.2
-upper_sedrate: 5
-upper_bound: 40

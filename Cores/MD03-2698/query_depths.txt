@@ -1,3 +1,0 @@
-start_depth: NaN
-end_depth: NaN
-interval: 0.01

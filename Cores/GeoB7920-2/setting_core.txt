@@ -1,2 +1,0 @@
-lower_sedrate: 0.2
-upper_sedrate: 5
