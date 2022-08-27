@@ -21,6 +21,9 @@ for iters = 1:5
     disp('   A new stack is updated.');
     [param,target] = standardizeStack(data,param,target);
 end
+disp('   Done.');
+disp('#  Age model construction algorithm is now running...');
+[data,samples,param] = getAlignment(data,data_part,QQ,param,target,setting,'alignment');
 disp('-------------------------------------------------------------------------------------------');
 
 

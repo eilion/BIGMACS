@@ -32,7 +32,7 @@ if strcmp(inputMode,'alignment')
     
     
     if strcmp(setting.data_type,'C14') || strcmp(setting.data_type,'both')
-        CI_C14 = getCI_C14(data);
+        CI_C14 = getCI_C14(data,target);
         
         path_txt = [path,'/C14_ages'];
         mkdir(path_txt);
@@ -96,7 +96,7 @@ elseif strcmp(inputMode,'stacking')
     mkdir(path);
     
     if strcmp(setting.data_type,'C14') || strcmp(setting.data_type,'both')
-        CI_C14 = getCI_C14(data);
+        CI_C14 = getCI_C14(data,target);
         
         path_txt = [path,'/C14_ages'];
         mkdir(path_txt);

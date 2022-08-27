@@ -1,0 +1,4 @@
+data_type: both
+IsLearn_transition: yes
+stack_min: 0
+stack_max: 60

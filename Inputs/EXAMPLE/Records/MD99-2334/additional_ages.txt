@@ -1,0 +1,3 @@
+depth(m) age_guess(kiloyear) error(kiloyear) mode
+0.14 1.505 1 1
+4.66 34.062 1 1

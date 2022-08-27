@@ -26,8 +26,7 @@ if ~strcmp(data_type,'C14')
         
         AMAX = size(data(ll).d18O,2);
         
-        H = cat(2,Samples(ll).isoutlier{:});
-        H = reshape(H,[AMAX*N,size(H,2)/AMAX]);
+        H = Samples(ll).isoutlier;
         H = (mean(H,2)>0.5);
         H = reshape(H,[N,AMAX]);
         
