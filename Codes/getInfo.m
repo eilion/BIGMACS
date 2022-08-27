@@ -46,12 +46,12 @@ for ll = 1:L
         LMU = zeros(N,6);
         
         for n = 1:N
-            LMU(n,1) = quantile(AA(n,:),0.023);
-            LMU(n,2) = quantile(AA(n,:),0.159);
+            LMU(n,1) = quantile(AA(n,:),0.025);
+            LMU(n,2) = quantile(AA(n,:),0.16);
             LMU(n,3) = quantile(AA(n,:),0.5);
             LMU(n,4) = mean(AA(n,:));
-            LMU(n,5) = quantile(AA(n,:),0.841);
-            LMU(n,6) = quantile(AA(n,:),0.977);
+            LMU(n,5) = quantile(AA(n,:),0.84);
+            LMU(n,6) = quantile(AA(n,:),0.975);
         end
         
         Info(ll).lower = LMU(:,1:2);
@@ -64,12 +64,12 @@ for ll = 1:L
         LMU = zeros(N,6);
         
         for n = 1:N
-            LMU(n,1) = quantile(AA(n,:),0.023);
-            LMU(n,2) = quantile(AA(n,:),0.159);
+            LMU(n,1) = quantile(AA(n,:),0.025);
+            LMU(n,2) = quantile(AA(n,:),0.16);
             LMU(n,3) = quantile(AA(n,:),0.5);
             LMU(n,4) = mean(AA(n,:));
-            LMU(n,5) = quantile(AA(n,:),0.841);
-            LMU(n,6) = quantile(AA(n,:),0.977);
+            LMU(n,5) = quantile(AA(n,:),0.84);
+            LMU(n,6) = quantile(AA(n,:),0.975);
         end
         
         Info(ll).lower = LMU(:,1:2);

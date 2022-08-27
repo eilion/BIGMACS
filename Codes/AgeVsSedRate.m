@@ -3,7 +3,9 @@ function AgeVsSedRate(results_path)
 results = load([results_path,'/results.mat']);
 
 path = [results_path,'/figures/age_vs_sed_rate'];
-mkdir(path);
+if exist(path,'dir') ~= 7
+    mkdir(path);
+end
 
 samples = results.samples;
 

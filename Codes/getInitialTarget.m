@@ -64,37 +64,75 @@ target.init_stack = target.stack;
 
 
 % load calibration curve:
-cal_curve = cell(3,1);
-cal_curve{1} = load('Defaults/Calibration_Curves/IntCal20.txt');
-cal_curve{2} = load('Defaults/Calibration_Curves/Marine20.txt');
-cal_curve{3} = load('Defaults/Calibration_Curves/SHCal20.txt');
+cal_curve = cell(4,1);
 
-cal_curve_ms = cell(3,1);
+path = 'Defaults/Calibration_Curves/IntCal20.txt';
+fileID = fopen(path);
+CAL = textscan(fileID,'%s %s %s %s %s');
+fclose(fileID);
+cal_curve{1} = zeros(length(CAL{1})-1,5);
+for k = 1:5
+    cal_curve{1}(:,k) = str2double(CAL{k}(2:end));
+end
+
+path = 'Defaults/Calibration_Curves/Marine20.txt';
+fileID = fopen(path);
+CAL = textscan(fileID,'%s %s %s %s %s');
+fclose(fileID);
+cal_curve{2} = zeros(length(CAL{1})-1,5);
+for k = 1:5
+    cal_curve{2}(:,k) = str2double(CAL{k}(2:end));
+end
+
+path = 'Defaults/Calibration_Curves/SHCal20.txt';
+fileID = fopen(path);
+CAL = textscan(fileID,'%s %s %s %s %s');
+fclose(fileID);
+cal_curve{3} = zeros(length(CAL{1})-1,5);
+for k = 1:5
+    cal_curve{3}(:,k) = str2double(CAL{k}(2:end));
+end
+
+path = ['Inputs/',inputFile,'/calibration_curve_14C.txt'];
+if exist(path,'file') == 2
+    fileID = fopen(path);
+    CAL = textscan(fileID,'%s %s %s %s %s');
+    fclose(fileID);
+    cal_curve{4} = zeros(length(CAL{1})-1,5);
+    for k = 1:5
+        cal_curve{4}(:,k) = str2double(CAL{k}(2:end));
+    end
+end
+
+cal_curve_ms = cell(4,1);
 age = (0:0.05:target.stack(end,1))';
 
 if age(end) < 60
     age = [age;60];
 end
 
-for m = 1:3
-    
-    Cal_age = cal_curve{m}(:,1)/1000;
-    C14_age = cal_curve{m}(:,2)/1000;
-    C14_error = cal_curve{m}(:,5)/1000;
-    
-    Cal_age_add = [Cal_age;age(end)];
-    C14_age_add = [C14_age;(age(end)-Cal_age(end))*(C14_age(end)-C14_age(1))/(Cal_age(end)-Cal_age(1))+C14_age(end)];
-    C14_error_add = [C14_error;(age(end)-Cal_age(end))*(C14_error(end)-C14_error(1))/(Cal_age(end)-Cal_age(1))+C14_error(end)];
-    
-    cal_curve_ms{m} = zeros(length(age),3);
-    cal_curve_ms{m}(:,1) = age;
-    
-    index = (cal_curve_ms{m}(:,1) >= Cal_age_add(1) & cal_curve_ms{m}(:,1) <= Cal_age_add(end));
-    cal_curve_ms{m}(index,2) = interp1(Cal_age_add,C14_age_add,cal_curve_ms{m}(index,1));
-    cal_curve_ms{m}(index,3) = interp1(Cal_age_add,C14_error_add,cal_curve_ms{m}(index,1));
-    
-    cal_curve_ms{m}(~index,2) = NaN;
-    cal_curve_ms{m}(~index,3) = NaN;
+for m = 1:4
+    if ~isempty(cal_curve{m})
+        
+        Cal_age = cal_curve{m}(:,1)/1000;
+        C14_age = cal_curve{m}(:,2)/1000;
+        C14_error = cal_curve{m}(:,5)/1000;
+        
+        Cal_age_add = [Cal_age;age(end)];
+        C14_age_add = [C14_age;(age(end)-Cal_age(end))*(C14_age(end)-C14_age(1))/(Cal_age(end)-Cal_age(1))+C14_age(end)];
+        C14_error_add = [C14_error;(age(end)-Cal_age(end))*(C14_error(end)-C14_error(1))/(Cal_age(end)-Cal_age(1))+C14_error(end)];
+        
+        cal_curve_ms{m} = zeros(length(age),3);
+        cal_curve_ms{m}(:,1) = age;
+        
+        index = (cal_curve_ms{m}(:,1) >= Cal_age_add(1) & cal_curve_ms{m}(:,1) <= Cal_age_add(end));
+        cal_curve_ms{m}(index,2) = interp1(Cal_age_add,C14_age_add,cal_curve_ms{m}(index,1));
+        cal_curve_ms{m}(index,3) = interp1(Cal_age_add,C14_error_add,cal_curve_ms{m}(index,1));
+        
+        cal_curve_ms{m}(~index,2) = NaN;
+        cal_curve_ms{m}(~index,3) = NaN;
+        
+    end
 end
 
 target.cal_curve = cal_curve_ms;

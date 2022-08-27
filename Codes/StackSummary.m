@@ -14,7 +14,9 @@ if ~strcmp(data_type,'C14')
     
     
     path = [results_path,'/figures/stack_summary'];
-    mkdir(path);
+    if exist(path,'dir') ~= 7
+        mkdir(path);
+    end
     
     L = length(data);
     
@@ -86,7 +88,11 @@ if ~strcmp(data_type,'C14')
     plot(stack(:,1),stack(:,2)-1.96*stack(:,3),':k','LineWidth',1);
     plot(stack(:,1),stack(:,2)+1.96*stack(:,3),':k','LineWidth',1);
     for ll = 1:L
-        h(ll) = plot(AGE{ll},D18O{ll},'*','Color',cc(ll,:),'LineWidth',2);
+        if ~isempty(AGE{ll})
+            h(ll) = plot(AGE{ll},D18O{ll},'*','Color',cc(ll,:),'LineWidth',2);
+        else
+            h(ll) = plot(NaN,NaN,'*','Color',cc(ll,:),'LineWidth',2);
+        end
     end
     xlabel('age (ky)','FontSize',12);
     ylabel('{\delta}^{18}O (‰)','FontSize',12);

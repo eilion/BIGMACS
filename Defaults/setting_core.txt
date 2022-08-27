@@ -10,7 +10,6 @@ islearn_average_sed_rate: adaptive
 lower_bound: NaN
 upper_bound: NaN
 min_resolution: 0.145675
-min_resolution_mode: absolute
 lower_sedrate: 1/6
 upper_sedrate: 6
 is_top_14C_inlier: yes

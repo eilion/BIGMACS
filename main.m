@@ -1,8 +1,6 @@
-addpath('Codes/');
+inputFile = 'EX2';
 
-inputFile = 'EXAMPLE';
-
-% inputMode = 'alignment';
-inputMode = 'stacking';
+% inputMode = 'age_model_construction';
+inputMode = 'stack_construction';
 
 BIGMACS(inputFile,inputMode);

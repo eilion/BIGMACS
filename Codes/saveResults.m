@@ -1,5 +1,17 @@
 function [savePath] = saveResults(data,samples,param,target,setting,inputFile,inputMode)
 
+L = length(samples);
+for ll = 1:L
+    M = length(samples(ll).isoutlier);
+    N = size(samples(ll).ages,1);
+    
+    AA = zeros(N,M);
+    for m = 1:M
+        AA(:,m) = samples(ll).isoutlier{m};
+    end
+    samples(ll).isoutlier = AA;
+end
+
 if strcmp(inputMode,'alignment')
     
     new_alignment_results_name = [inputFile,'_',setting.data_type];
@@ -27,7 +39,7 @@ if strcmp(inputMode,'alignment')
         for ll = 1:length(CI_C14)
             fileID = [path_txt,'/',CI_C14(ll).name,'.txt'];
             fid = fopen(fileID,'wt');
-            fprintf(fid,'depth(m) lower_95.4(kyr) lower_68.2(kyr) median(kyr) mean(kyr) upper_68.2(kyr) upper_95.4(kyr)');
+            fprintf(fid,'depth(m) lower_95(kyr) lower_68(kyr) median(kyr) mean(kyr) upper_68(kyr) upper_95(kyr)');
             fprintf(fid,'\n');
             for i = 1:length(CI_C14(ll).depth)
                 fprintf(fid,'%f %f %f %f %f %f %f',[CI_C14(ll).depth(i),CI_C14(ll).lower(i,:),CI_C14(ll).median(i,:),CI_C14(ll).upper(i,:)]);
@@ -50,7 +62,7 @@ if strcmp(inputMode,'alignment')
     for ll = 1:length(Info)
         fileID = [path_txt,'/',Info(ll).name,'.txt'];
         fid = fopen(fileID,'wt');
-        fprintf(fid,'depth(m) lower_95.4(kyr) lower_68.2(kyr) median(kyr) mean(kyr) upper_68.2(kyr) upper_95.4(kyr)');
+        fprintf(fid,'depth(m) lower_95(kyr) lower_68(kyr) median(kyr) mean(kyr) upper_68(kyr) upper_95(kyr)');
         fprintf(fid,'\n');
         for i = 1:length(Info(ll).depth)
             fprintf(fid,'%f %f %f %f %f %f %f',[Info(ll).depth(i),Info(ll).lower(i,:),Info(ll).median(i,:),Info(ll).upper(i,:)]);
@@ -61,7 +73,13 @@ if strcmp(inputMode,'alignment')
 
 elseif strcmp(inputMode,'stacking')
     
-    new_stack_name = [inputFile,'_',setting.data_type,'_',setting.kernel_function,'_',setting.variance];
+    setting.start_age = setting.st;
+    setting.end_age = setting.ed;
+    
+    setting = rmfield(setting,'st');
+    setting = rmfield(setting,'ed');
+    
+    new_stack_name = [inputFile,'_',setting.data_type];
     
     path = ['Outputs/',new_stack_name];
     if exist(path,'dir') == 7
@@ -85,7 +103,7 @@ elseif strcmp(inputMode,'stacking')
         for ll = 1:length(CI_C14)
             fileID = [path_txt,'/',CI_C14(ll).name,'.txt'];
             fid = fopen(fileID,'wt');
-            fprintf(fid,'depth(m) lower_95.4(kyr) lower_68.2(kyr) median(kyr) mean(kyr) upper_68.2(kyr) upper_95.4(kyr)');
+            fprintf(fid,'depth(m) lower_95(kyr) lower_68(kyr) median(kyr) mean(kyr) upper_68(kyr) upper_95(kyr)');
             fprintf(fid,'\n');
             for i = 1:length(CI_C14(ll).depth)
                 fprintf(fid,'%f %f %f %f %f %f %f',[CI_C14(ll).depth(i),CI_C14(ll).lower(i,:),CI_C14(ll).median(i,:),CI_C14(ll).upper(i,:)]);
@@ -123,7 +141,7 @@ elseif strcmp(inputMode,'stacking')
     for ll = 1:length(Info)
         fileID = [path_txt,'/',Info(ll).name,'.txt'];
         fid = fopen(fileID,'wt');
-        fprintf(fid,'depth(m) lower_95.4(kyr) lower_68.2(kyr) median(kyr) mean(kyr) upper_68.2(kyr) upper_95.4(kyr)');
+        fprintf(fid,'depth(m) lower_95(kyr) lower_68(kyr) median(kyr) mean(kyr) upper_68(kyr) upper_95(kyr)');
         fprintf(fid,'\n');
         for i = 1:length(Info(ll).depth)
             fprintf(fid,'%f %f %f %f %f %f %f',[Info(ll).depth(i),Info(ll).lower(i,:),Info(ll).median(i,:),Info(ll).upper(i,:)]);

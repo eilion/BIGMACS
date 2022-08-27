@@ -4,7 +4,7 @@ L = length(data);
 
 TT = param.tran_param;
 
-if strcmp(setting.IsLearn_transition,'global') == 1 || strcmp(setting.IsLearn_transition,'local') == 1
+if strcmp(setting.IsLearn_transition,'yes') == 1
     Grid = [0.9220,1.0850];
     phi_I = zeros(L,3);
     phi_C = zeros(L,3);
@@ -48,40 +48,21 @@ if strcmp(setting.IsLearn_transition,'global') == 1 || strcmp(setting.IsLearn_tr
         phi_M(ll,:) = phi_M(ll,:)/M;
         phi_E(ll,:) = phi_E(ll,:)/M;
     end
-    if strcmp(setting.IsLearn_transition,'global') == 1
-        for ll = 1:L
-            data(ll).phi_I = sum(phi_I,1) + TT(1,:);
-            data(ll).phi_I = data(ll).phi_I/sum(data(ll).phi_I);
-            data(ll).phi_C = sum(phi_C,1) + TT(2,:);
-            data(ll).phi_C = data(ll).phi_C/sum(data(ll).phi_C);
-            data(ll).phi_M = sum(phi_M,1) + TT(3,:);
-            data(ll).phi_M = data(ll).phi_M/sum(data(ll).phi_M);
-            data(ll).phi_E = sum(phi_E,1) + TT(4,:);
-            data(ll).phi_E = data(ll).phi_E/sum(data(ll).phi_E);
-        end
-        for ll = 1:L
-            data(ll).phi_I = data(ll).phi_I/sum(data(ll).phi_I);
-            data(ll).phi_C = data(ll).phi_C/sum(data(ll).phi_C);
-            data(ll).phi_M = data(ll).phi_M/sum(data(ll).phi_M);
-            data(ll).phi_E = data(ll).phi_E/sum(data(ll).phi_E);
-        end
-    else
-        for ll = 1:L
-            data(ll).phi_I = phi_I(ll,:) + TT(1,:);
-            data(ll).phi_I = data(ll).phi_I/sum(data(ll).phi_I);
-            data(ll).phi_C = phi_C(ll,:) + TT(2,:);
-            data(ll).phi_C = data(ll).phi_C/sum(data(ll).phi_C);
-            data(ll).phi_M = phi_M(ll,:) + TT(3,:);
-            data(ll).phi_M = data(ll).phi_M/sum(data(ll).phi_M);
-            data(ll).phi_E = phi_E(ll,:) + TT(4,:);
-            data(ll).phi_E = data(ll).phi_E/sum(data(ll).phi_E);
-        end
-        for ll = 1:L
-            data(ll).phi_I = data(ll).phi_I/sum(data(ll).phi_I);
-            data(ll).phi_C = data(ll).phi_C/sum(data(ll).phi_C);
-            data(ll).phi_M = data(ll).phi_M/sum(data(ll).phi_M);
-            data(ll).phi_E = data(ll).phi_E/sum(data(ll).phi_E);
-        end
+    for ll = 1:L
+        data(ll).phi_I = sum(phi_I,1) + TT(1,:);
+        data(ll).phi_I = data(ll).phi_I/sum(data(ll).phi_I);
+        data(ll).phi_C = sum(phi_C,1) + TT(2,:);
+        data(ll).phi_C = data(ll).phi_C/sum(data(ll).phi_C);
+        data(ll).phi_M = sum(phi_M,1) + TT(3,:);
+        data(ll).phi_M = data(ll).phi_M/sum(data(ll).phi_M);
+        data(ll).phi_E = sum(phi_E,1) + TT(4,:);
+        data(ll).phi_E = data(ll).phi_E/sum(data(ll).phi_E);
+    end
+    for ll = 1:L
+        data(ll).phi_I = data(ll).phi_I/sum(data(ll).phi_I);
+        data(ll).phi_C = data(ll).phi_C/sum(data(ll).phi_C);
+        data(ll).phi_M = data(ll).phi_M/sum(data(ll).phi_M);
+        data(ll).phi_E = data(ll).phi_E/sum(data(ll).phi_E);
     end
 end
 

@@ -11,7 +11,9 @@ data_type = setting.data_type;
 if ~strcmp(data_type,'C14')
     
     path = [results_path,'/figures/age_vs_d18O'];
-    mkdir(path);
+    if exist(path,'dir') ~= 7
+        mkdir(path);
+    end
     
     clear results;
     
@@ -87,6 +89,9 @@ if ~strcmp(data_type,'C14')
         
         MAX = max(LMU(:,3));
         MAX = ceil(MAX/10)*10;
+        if isempty(MAX)
+            MAX = target.stack(end,1);
+        end
         
         
         if isempty(OLP) == 1

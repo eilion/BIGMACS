@@ -66,12 +66,12 @@ parfor ll = 1:L
                 x_samples = x;
                 SAMPLES(k,:) = x_samples(1:1000);
                 
-                lower(k,1) = quantile(x_samples,0.023);
-                lower(k,2) = quantile(x_samples,0.159);
+                lower(k,1) = quantile(x_samples,0.025);
+                lower(k,2) = quantile(x_samples,0.16);
                 MEDIAN(k,1) = quantile(x_samples,0.5);
                 MEDIAN(k,2) = mean(x_samples)
-                upper(k,1) = quantile(x_samples,0.841);
-                upper(k,2) = quantile(x_samples,0.977);
+                upper(k,1) = quantile(x_samples,0.84);
+                upper(k,2) = quantile(x_samples,0.975);
             end
         end
     end

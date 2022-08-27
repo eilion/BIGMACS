@@ -122,23 +122,9 @@ data = struct('name',cell(L,1),'depth',cell(L,1),'d18O',cell(L,1),'radiocarbon',
 for ll = 1:L
     data(ll).name = core_title{ll};
     
-    path = 'Defaults/setting_core.txt';
-    fileID = fopen(path);
-    INFO = textscan(fileID,'%s %s');
-    fclose(fileID);
-    
-    data(ll).C14_unit = INFO{2}{strcmp(INFO{1},'14C_unit:')==1};
-    
-    path = ['Inputs/',inputFile,'/Records/',data(ll).name,'/setting_core.txt'];
-    if exist(path,'file') == 2
-        if sum(strcmp(INFO{1},'14C_unit:')==1) == 1
-            data(ll).C14_unit = INFO{2}{strcmp(INFO{1},'14C_unit:')==1};
-        end
-    end
-    
     % Gather d18O data:
-    if strcmp(setting.data_type,'C14') == 0
-        path = ['Inputs/',inputFile,'/Records/',data(ll).name,'/d18O_data.txt'];
+    path = ['Inputs/',inputFile,'/Records/',data(ll).name,'/d18O_data.txt'];
+    if strcmp(setting.data_type,'C14') == 0 && exist(path,'file') == 2
         fileID = fopen(path);
         AA = textscan(fileID,'%s %s');
         fclose(fileID);
@@ -188,23 +174,19 @@ for ll = 1:L
     
     
     % Gather C14 data:
-    if strcmp(setting.data_type,'d18O') == 0
-        path = ['Inputs/',inputFile,'/Records/',data(ll).name,'/C14_data.txt'];
+    path = ['Inputs/',inputFile,'/Records/',data(ll).name,'/C14_data.txt'];
+    if strcmp(setting.data_type,'d18O') == 0 && exist(path,'file') == 2
         fileID = fopen(path);
-        AA = textscan(fileID,'%s %s %s %s %s %s %s');
+        AA = textscan(fileID,'%s %s %s %s %s %s');
         fclose(fileID);
         C14_data_temp = zeros(length(AA{1})-1,7);
-        for k = 1:7
+        for k = 1:6
             C14_data_temp(:,k) = str2double(AA{k}(2:end));
         end
         % C14_data_temp = load(path);
-        if strcmp(data(ll).C14_unit,'meter_and_kiloyear')
-            C14_depth_temp = C14_data_temp(:,1);
-            C14_data_temp(:,2:5) = C14_data_temp(:,2:5);
-        elseif strcmp(data(ll).C14_unit,'centimeter_and_year')
-            C14_depth_temp = C14_data_temp(:,1)/100;
-            C14_data_temp(:,2:5) = C14_data_temp(:,2:5)/1000;
-        end
+        
+        C14_depth_temp = C14_data_temp(:,1);
+        C14_data_temp(:,2:5) = C14_data_temp(:,2:5);
         C14_data_temp = C14_data_temp(:,2:7);
         
         [~,order] = sort(C14_depth_temp,'ascend');
@@ -381,10 +363,10 @@ for ll = 1:L
     data(ll).lower_bound = str2double(INFO{2}{strcmp(INFO{1},'lower_bound:')==1});
     data(ll).upper_bound = str2double(INFO{2}{strcmp(INFO{1},'upper_bound:')==1});
     data(ll).min_resolution = str2double(INFO{2}{strcmp(INFO{1},'min_resolution:')==1});
-    data(ll).min_resolution_mode = INFO{2}{strcmp(INFO{1},'min_resolution_mode:')==1};
+    data(ll).min_resolution_mode = 'absolute';
     data(ll).lower_sedrate = str2double(INFO{2}{strcmp(INFO{1},'lower_sedrate:')==1});
     data(ll).upper_sedrate = str2double(INFO{2}{strcmp(INFO{1},'upper_sedrate:')==1});
-    data(ll).is_top_14C_inlier = INFO{2}{strcmp(INFO{1},'is_top_14C_inlier:')==1};
+    data(ll).is_top_14C_inlier = 'no';
     
     path = ['Inputs/',inputFile,'/Records/',data(ll).name,'/setting_core.txt'];
     if exist(path,'file') == 2
@@ -440,20 +422,12 @@ for ll = 1:L
             data(ll).min_resolution = str2double(INFO{2}{strcmp(INFO{1},'min_resolution:')==1});
         end
         
-        if sum(strcmp(INFO{1},'min_resolution_mode:')==1) == 1
-            data(ll).min_resolution_mode = INFO{2}{strcmp(INFO{1},'min_resolution_mode:')==1};
-        end
-        
         if sum(strcmp(INFO{1},'lower_sedrate:')==1) == 1
             data(ll).lower_sedrate = str2double(INFO{2}{strcmp(INFO{1},'lower_sedrate:')==1});
         end
         
         if sum(strcmp(INFO{1},'upper_sedrate:')==1) == 1
             data(ll).upper_sedrate = str2double(INFO{2}{strcmp(INFO{1},'upper_sedrate:')==1});
-        end
-        
-        if sum(strcmp(INFO{1},'is_top_14C_inlier:')==1) == 1
-            data(ll).is_top_14C_inlier = INFO{2}{strcmp(INFO{1},'is_top_14C_inlier:')==1};
         end
     end
     
@@ -646,7 +620,6 @@ data = rmfield(data,'initial_scale');
 data = rmfield(data,'initial_average_sed_rate');
 data = rmfield(data,'lower_bound');
 data = rmfield(data,'upper_bound');
-data = rmfield(data,'C14_unit');
 
 
 % add depths:

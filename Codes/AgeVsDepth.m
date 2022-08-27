@@ -12,7 +12,9 @@ if strcmp(data_type,'both') == 1
 end
 
 path = [results_path,'/figures/age_vs_depth'];
-mkdir(path);
+if exist(path,'dir') ~= 7
+    mkdir(path);
+end
 
 if strcmp(setting.data_type,'both') || strcmp(setting.data_type,'C14')
     CI = results.CI_C14;

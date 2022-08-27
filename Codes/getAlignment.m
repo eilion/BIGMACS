@@ -39,10 +39,10 @@ while iters < max_iters && sum(TT) > 0
     
     disp('   Parameters are updated.');
     
-    if strcmp(setting.IsLearn_transition,'no') || strcmp(setting.IsLearn_transition,'local')
+    if strcmp(setting.IsLearn_transition,'no')
         diff = loglik_new - loglik_old;
         tt = ['   Updating parameters makes the average log-likelihood of samples increased by [',num2str(diff'),'].'];
-    elseif strcmp(setting.IsLearn_transition,'global') == 1
+    elseif strcmp(setting.IsLearn_transition,'yes') == 1
         diff = mean(loglik_new) - mean(loglik_old);
         tt = ['   Updating parameters makes the average log-likelihood of samples increased by ',num2str(diff),'.'];
     end
@@ -55,9 +55,9 @@ while iters < max_iters && sum(TT) > 0
     clear new_param;
     
     if iters > 3
-        if strcmp(setting.IsLearn_transition,'no') || strcmp(setting.IsLearn_transition,'local')
+        if strcmp(setting.IsLearn_transition,'no')
             TT = (abs(loglik_old-loglik_new)>threshold);
-        elseif strcmp(setting.IsLearn_transition,'global')
+        elseif strcmp(setting.IsLearn_transition,'yes')
             if abs(diff) < threshold
                 TT = zeros(length(Samples),1);
             end
