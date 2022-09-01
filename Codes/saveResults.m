@@ -4,10 +4,13 @@ L = length(samples);
 for ll = 1:L
     M = length(samples(ll).isoutlier);
     N = size(samples(ll).ages,1);
+    D = size(data(ll).d18O,2);
     
-    AA = zeros(N,M);
-    for m = 1:M
-        AA(:,m) = samples(ll).isoutlier{m};
+    AA = zeros(N,M,D);
+    for d = 1:D
+        for m = 1:M
+            AA(:,m,d) = samples(ll).isoutlier{m}(:,d);
+        end
     end
     samples(ll).isoutlier = AA;
 end
