@@ -6,10 +6,14 @@ for ll = 1:L
     N = size(samples(ll).ages,1);
     D = size(data(ll).d18O,2);
     
-    AA = zeros(N,M,D);
-    for d = 1:D
-        for m = 1:M
-            AA(:,m,d) = samples(ll).isoutlier{m}(:,d);
+    if strcmp(setting.data_type,'C14')
+        AA = ones(N,M);
+    else
+        AA = zeros(N,M,D);
+        for d = 1:D
+            for m = 1:M
+                AA(:,m,d) = samples(ll).isoutlier{m}(:,d);
+            end
         end
     end
     samples(ll).isoutlier = AA;

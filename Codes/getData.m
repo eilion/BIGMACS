@@ -518,6 +518,10 @@ for ll = 1:L
             data(ll).max = target.stack(end,1);
         end
     end
+    [QR1,QR2] = max(data(ll).suggested_age(:,1));
+    if ~isnan(QR1)
+        data(ll).max = max(data(ll).max,data(ll).suggested_age(QR2,1)+3*data(ll).suggested_age(QR2,2));
+    end
     
     if isnan(data(ll).initial_average_sed_rate)
         T = size(target.stack,1);

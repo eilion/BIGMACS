@@ -25,7 +25,7 @@ if strcmp(setting.IsLearn_transition,'yes') == 1
         X_diff = X(2:end,:) - X(1:end-1,:);
         R = zeros(size(X_diff));
         for m = 1:M
-            R(:,m) = interp1(target.stack(:,1),data(ll).R(:,2),X(2:end,m));
+            R(:,m) = interp1(data(ll).R(:,1),data(ll).R(:,2),X(2:end,m));
         end
         X_diff_ratio = X_diff./(depth_diff.*R);
         
