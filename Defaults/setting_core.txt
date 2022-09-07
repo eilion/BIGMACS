@@ -12,4 +12,3 @@ upper_bound: NaN
 min_resolution: 0.145675
 lower_sedrate: 1/6
 upper_sedrate: 6
-14C_unit: centimeter_and_year
