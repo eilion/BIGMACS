@@ -6,7 +6,7 @@ max_iters: 500
 h: 20
 a_d18O: 3
 b_d18O: 4
-a_C14: 3
-b_C14: 4
+a_C14: 10
+b_C14: 11
 nSamples_learning: 100
 nSamples_drawing: 1000
