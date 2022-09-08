@@ -4,9 +4,11 @@ disp('#  Initializing...');
 setting = getSetting(inputFile,'stacking');
 target = getInitialTarget(inputFile,setting,'stacking');
 [data,data_part,param,setting] = getData(inputFile,target,setting,'stacking');
+disp('   Data are loaded successfully.');
 
 
 % initialize samples:
+disp('   Initializing the age samples...');
 QQ = initializeAlignment(data,data_part,param,target,setting);
 disp('   Done.');
 
