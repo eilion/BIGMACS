@@ -4,9 +4,11 @@ disp('#  Initializing...');
 setting = getSetting(inputFile,'alignment');
 target = getInitialTarget(inputFile,setting,'alignment');
 [data,data_part,param,setting] = getData(inputFile,target,setting,'alignment');
+disp('   Data are loaded successfully.');
 
 
 % initialize samples:
+disp('   Initializing the age samples...');
 QQ = initializeAlignment(data,data_part,param,target,setting);
 disp('   Done.');
 
