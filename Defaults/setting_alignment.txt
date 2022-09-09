@@ -1,4 +1,4 @@
 data_type: both
 IsLearn_transition: no
-stack_min: 0
-stack_max: 200
+stack_min: -inf
+stack_max: inf
