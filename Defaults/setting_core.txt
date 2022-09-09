@@ -10,5 +10,5 @@ islearn_average_sed_rate: adaptive
 lower_bound: NaN
 upper_bound: NaN
 min_resolution: 0.145675
-lower_sedrate: 1/6
-upper_sedrate: 6
+lower_sedrate: 1/8
+upper_sedrate: 8
