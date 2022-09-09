@@ -581,6 +581,9 @@ for ll = 1:L
         else
             if strcmp(setting.data_type,'C14')
                 RT = (data(ll).min:0.5:data(ll).max)';
+                if RT(end) < data(ll).max
+                    RT = [RT;data(ll).max];
+                end
                 data(ll).R = [RT,(ed_age-st_age)/(depth(ed(1))-depth(st(1)))*ones(size(RT,1),1)];
             else
                 data(ll).R = [target.stack(:,1),(ed_age-st_age)/(depth(ed(1))-depth(st(1)))*ones(T,1)];
