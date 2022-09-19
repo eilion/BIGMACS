@@ -1,4 +1,4 @@
-function [SAM_A,WW] = Proposal_init(WWB,AB,depth_diff,d18O,C14_Table,Age_Info,data,param,S,target,mode)
+function [SAM_A,WW] = Proposal_init(WWB,AB,depth_diff,d18O,C14_Table,Age_Info,data,param,S,target,mode,nn)
 
 stack = target.stack;
 cal_curve = target.cal_curve;
@@ -26,10 +26,21 @@ if isempty(WWB) == 1
     age_ed = Age_Info(5);
     age_st = Age_Info(4);
     
-    age_range = age_ed - age_st;
-    
-    % Sample ages:
-    SAM_A = age_range*rand(1,S) + age_st;
+    if ~isempty(data.initial_age)
+        ID = (abs(data.initial_age(:,1)-data.depth(nn))<1e-6);
+        if sum(ID) > 0
+            ZZ = data.initial_age(ID,2);
+            SAM_A = ZZ(1)*ones(1,S);
+        else
+            age_range = age_ed - age_st;
+            % Sample ages:
+            SAM_A = age_range*rand(1,S) + age_st;
+        end
+    else
+        age_range = age_ed - age_st;
+        % Sample ages:
+        SAM_A = age_range*rand(1,S) + age_st;
+    end
     
     % Compute weights:
     MargLik = zeros(1,S);
@@ -83,8 +94,23 @@ else
         % AB_TABLE = AB;
         % WB_TABLE = WWB;
         
-        % Sample ages:
-        SAM_A = (age_ed-age_st).*rand(3,S) + age_st;
+        if ~isempty(data.initial_age)
+            ID = (abs(data.initial_age(:,1)-data.depth(nn))<1e-6);
+            if sum(ID) > 0
+                ZZ = data.initial_age(ID,2);
+                if ZZ(1) > age_st && ZZ(1) < age_ed
+                    SAM_A = ZZ(1)*ones(3,S);
+                else
+                    SAM_A = (age_ed-age_st).*rand(3,S) + age_st;
+                end
+            else
+                % Sample ages:
+                SAM_A = (age_ed-age_st).*rand(3,S) + age_st;
+            end
+        else
+            % Sample ages:
+            SAM_A = (age_ed-age_st).*rand(3,S) + age_st;
+        end
         
         % Compute weights:
         WW = zeros(3,S);
@@ -268,8 +294,24 @@ else
         WB_TABLE_M = WWB(2,:);
         WB_TABLE_E = WWB(3,:);
         %}
-        % Sample ages:
-        SAM_A = (age_ed-age_st).*rand(3,S) + age_st;
+        
+        if ~isempty(data.initial_age)
+            ID = (abs(data.initial_age(:,1)-data.depth(nn))<1e-6);
+            if sum(ID) > 0
+                ZZ = data.initial_age(ID,2);
+                if ZZ(1) > age_st && ZZ(1) < age_ed
+                    SAM_A = ZZ(1)*ones(3,S);
+                else
+                    SAM_A = (age_ed-age_st).*rand(3,S) + age_st;
+                end
+            else
+                % Sample ages:
+                SAM_A = (age_ed-age_st).*rand(3,S) + age_st;
+            end
+        else
+            % Sample ages:
+            SAM_A = (age_ed-age_st).*rand(3,S) + age_st;
+        end
         
         % Compute weights:
         WW = zeros(3,S);

@@ -2,7 +2,7 @@ function [data] = UpdateParameters_R(data,Samples,param,target,TTT)
 
 L = length(data);
 
-h = param.h;
+h = data.SM_BW;
 
 for ll = 1:L
     if TTT(ll) == 1

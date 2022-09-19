@@ -68,12 +68,12 @@ A = cell(N,1);
 W = cell(N,1);
 
 % initialization:
-[A{N},W{N}] = Proposal_init([],[],[],d18O(N,:),C14{N},Age_Info(N,:),data,param,S,target,data_type);
+[A{N},W{N}] = Proposal_init([],[],[],d18O(N,:),C14{N},Age_Info(N,:),data,param,S,target,data_type,N);
 
 % iteration:
 for nn = 1:N-1
     n = N-nn;
-    [A{n},W{n}] = Proposal_init(W{n+1},A{n+1},depth_diff(n),d18O(n,:),C14{n},Age_Info(n,:),data,param,S,target,data_type);
+    [A{n},W{n}] = Proposal_init(W{n+1},A{n+1},depth_diff(n),d18O(n,:),C14{n},Age_Info(n,:),data,param,S,target,data_type,n);
 end
 
 
@@ -162,7 +162,7 @@ AAA = interp1(depth,AA,depth_full);
 
 QQ = zeros(N,2);
 QQ(:,1) = mean(AAA,2);
-QQ(:,2) = var(AAA,1,2) + 9;
+QQ(:,2) = var(AAA,1,2) + 1.285*data.PTCL_BW;
 
 
 end

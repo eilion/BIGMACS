@@ -10,9 +10,7 @@ fclose(fileID);
 param.q = str2double(INFO{2}{strcmp(INFO{1},'q:')==1});
 param.d = str2double(INFO{2}{strcmp(INFO{1},'d:')==1});
 param.nParticles = str2double(INFO{2}{strcmp(INFO{1},'nParticles:')==1});
-param.v = str2double(INFO{2}{strcmp(INFO{1},'v:')==1});
 param.max_iters = str2double(INFO{2}{strcmp(INFO{1},'max_iters:')==1});
-param.h = str2double(INFO{2}{strcmp(INFO{1},'h:')==1});
 param.a_d18O = str2double(INFO{2}{strcmp(INFO{1},'a_d18O:')==1});
 param.b_d18O = str2double(INFO{2}{strcmp(INFO{1},'b_d18O:')==1});
 param.a_C14 = str2double(INFO{2}{strcmp(INFO{1},'a_C14:')==1});
@@ -36,16 +34,8 @@ if exist(path,'file') == 2
         param.nParticles = str2double(INFO{2}{strcmp(INFO{1},'nParticles:')==1});
     end
     
-    if sum(strcmp(INFO{1},'v:')==1) == 1
-        param.v = str2double(INFO{2}{strcmp(INFO{1},'v:')==1});
-    end
-    
     if sum(strcmp(INFO{1},'max_iters:')==1) == 1
         param.max_iters = str2double(INFO{2}{strcmp(INFO{1},'max_iters:')==1});
-    end
-    
-    if sum(strcmp(INFO{1},'h:')==1) == 1
-        param.h = str2double(INFO{2}{strcmp(INFO{1},'h:')==1});
     end
     
     if sum(strcmp(INFO{1},'a_d18O:')==1) == 1
@@ -117,7 +107,7 @@ else
     end
 end
 
-data = struct('name',cell(L,1),'depth',cell(L,1),'d18O',cell(L,1),'radiocarbon',cell(L,1),'suggested_age',cell(L,1),'scale',cell(L,1),'shift',cell(L,1),'R',cell(L,1),'phi_I',cell(L,1),'phi_C',cell(L,1),'phi_M',cell(L,1),'phi_E',cell(L,1),'min',cell(L,1),'max',cell(L,1),'res',cell(L,1),'lower_sedrate',cell(L,1),'upper_sedrate',cell(L,1));
+data = struct('name',cell(L,1),'depth',cell(L,1),'d18O',cell(L,1),'radiocarbon',cell(L,1),'suggested_age',cell(L,1),'initial_age',cell(L,1),'scale',cell(L,1),'shift',cell(L,1),'R',cell(L,1),'phi_I',cell(L,1),'phi_C',cell(L,1),'phi_M',cell(L,1),'phi_E',cell(L,1),'min',cell(L,1),'max',cell(L,1),'res',cell(L,1),'lower_sedrate',cell(L,1),'upper_sedrate',cell(L,1));
 
 for ll = 1:L
     data(ll).name = core_title{ll};
@@ -280,7 +270,6 @@ for ll = 1:L
         end
     end
     
-    
     % Merge them chrononically:
     N = length(d18O_depth) + length(C14_depth) + length(empty_depth);
     merge_depth_temp = [d18O_depth;empty_depth;C14_depth];
@@ -336,6 +325,18 @@ for ll = 1:L
     data(ll).d18O = merge_d18O;
     data(ll).radiocarbon = merge_C14;
     data(ll).suggested_age = merge_sugg_age;
+    
+    path = ['Inputs/',inputFile,'/Records/',data(ll).name,'/initial_ages.txt'];
+    if exist(path,'file') == 2
+        fileID = fopen(path);
+        BB = textscan(fileID,'%s %s');
+        fclose(fileID);
+        AA = zeros(length(BB{1})-1,2);
+        for k = 1:2
+            AA(:,k) = str2double(BB{k}(2:end));
+        end
+        data(ll).initial_age = AA;
+    end
 end
 
 
@@ -367,6 +368,9 @@ for ll = 1:L
     data(ll).lower_sedrate = str2double(INFO{2}{strcmp(INFO{1},'lower_sedrate:')==1});
     data(ll).upper_sedrate = str2double(INFO{2}{strcmp(INFO{1},'upper_sedrate:')==1});
     data(ll).is_top_14C_inlier = 'no';
+    
+    data(ll).SM_BW = str2double(INFO{2}{strcmp(INFO{1},'smoothness_bandwidth:')==1});
+    data(ll).PTCL_BW = str2double(INFO{2}{strcmp(INFO{1},'particle_bandwidth:')==1});
     
     path = ['Inputs/',inputFile,'/Records/',data(ll).name,'/setting_core.txt'];
     if exist(path,'file') == 2
@@ -428,6 +432,14 @@ for ll = 1:L
         
         if sum(strcmp(INFO{1},'upper_sedrate:')==1) == 1
             data(ll).upper_sedrate = str2double(INFO{2}{strcmp(INFO{1},'upper_sedrate:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'smoothness_bandwidth:')==1) == 1
+            data(ll).SM_BW = str2double(INFO{2}{strcmp(INFO{1},'smoothness_bandwidth:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'particle_bandwidth:')==1) == 1
+            data(ll).PTCL_BW = str2double(INFO{2}{strcmp(INFO{1},'particle_bandwidth:')==1});
         end
     end
     
@@ -711,7 +723,7 @@ for ll = 1:L
             index(m) = n;
             d = 0;
         else
-            if d > dT && ~isnan(data(ll).d18O(n,1))
+            if ~isempty(data(ll).initial_age) && sum(abs(data(ll).initial_age(:,1)-data(ll).depth(n))<1e-6)>0
                 m = m + 1;
                 depth(m) = data(ll).depth(n);
                 d18O(m,:) = data(ll).d18O(n,:);
@@ -719,6 +731,16 @@ for ll = 1:L
                 sugg_age(m,:) = data(ll).suggested_age(n,:);
                 index(m) = n;
                 d = 0;
+            else
+                if d > dT && ~isnan(data(ll).d18O(n,1))
+                    m = m + 1;
+                    depth(m) = data(ll).depth(n);
+                    d18O(m,:) = data(ll).d18O(n,:);
+                    radiocarbon{m} = data(ll).radiocarbon{n};
+                    sugg_age(m,:) = data(ll).suggested_age(n,:);
+                    index(m) = n;
+                    d = 0;
+                end
             end
         end
     end

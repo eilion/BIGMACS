@@ -77,7 +77,7 @@ for m = 1:M
         if isempty(CI(m).depth) == 0
             q = 2;
             for j = 1:length(CI(m).depth)
-                h(2) = plot([CI(m).lower(j),CI(m).upper(j)],[CI(m).depth(j),CI(m).depth(j)],'b','LineWidth',2);
+                h(2) = plot([CI(m).lower_95(j),CI(m).upper_95(j)],[CI(m).depth(j),CI(m).depth(j)],'b','LineWidth',2);
             end
         else
             q = 1;
@@ -153,7 +153,7 @@ for m = 1:M
         if isempty(CI(m).depth) == 0
             q = 2;
             for j = 1:length(CI(m).depth)
-                h(2) = plot([CI(m).lower(j),CI(m).upper(j)],[CI(m).depth(j),CI(m).depth(j)],'c','LineWidth',2);
+                h(2) = plot([CI(m).lower_95(j),CI(m).upper_95(j)],[CI(m).depth(j),CI(m).depth(j)],'c','LineWidth',2);
             end
         else
             q = 1;

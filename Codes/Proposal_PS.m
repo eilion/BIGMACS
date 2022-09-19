@@ -9,7 +9,7 @@ b_C14 = param.b_C14;
 
 
 S = param.nParticles;
-v = param.v;
+v = data_full.PTCL_BW;
 
 R = data_full.R;
 

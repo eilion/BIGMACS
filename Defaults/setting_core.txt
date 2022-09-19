@@ -7,8 +7,10 @@ initial_average_sed_rate: NaN
 islearn_shift: yes
 islearn_scale: no
 islearn_average_sed_rate: adaptive
+smoothness_bandwidth: 20
 lower_bound: NaN
 upper_bound: NaN
 min_resolution: 0.145675
 lower_sedrate: 1/8
 upper_sedrate: 8
+particle_bandwidth: 7

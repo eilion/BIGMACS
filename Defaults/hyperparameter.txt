@@ -1,9 +1,7 @@
 q: 0.05
 d: 3
 nParticles: 500
-v: 7
 max_iters: 500
-h: 20
 a_d18O: 3
 b_d18O: 4
 a_C14: 10
