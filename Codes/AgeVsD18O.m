@@ -1,10 +1,9 @@
 function AgeVsD18O(results_path)
 
 results = load([results_path,'/results.mat']);
-data = results.data;
-Samples = results.samples;
+data = results.summary;
 target = results.target;
-setting = results.setting;
+setting = results.setting_alignment;
 
 data_type = setting.data_type;
 
@@ -29,7 +28,7 @@ if ~strcmp(data_type,'C14')
             
             AMAX = size(data(ll).d18O,2);
             
-            H = Samples(ll).isoutlier;
+            H = data(ll).isoutlier;
             H = (mean(H,2)>0.5);
             H = reshape(H,[N,AMAX]);
             
@@ -39,8 +38,8 @@ if ~strcmp(data_type,'C14')
                 K = sum(~isnan(data(ll).d18O(n,:)));
                 if K > 1
                     m = m + 1;
-                    AA = quantile(Samples(ll).ages(n,:),0.5)*ones(1,K);
-                    BB = (data(ll).d18O(n,1:K)-data(ll).shift)/data(ll).scale;
+                    AA = quantile(data(ll).age_samples(n,:),0.5)*ones(1,K);
+                    BB = (data(ll).d18O(n,1:K)-data(ll).d18O_shift)/data(ll).d18O_scale;
                     CC = H(n,1:K);
                     [~,order] = sort(BB,'ascend');
                     BB = BB(order);
@@ -64,10 +63,10 @@ if ~strcmp(data_type,'C14')
             for n = 1:N
                 if ~isnan(data(ll).d18O(n,1))
                     m = m + 1;
-                    LMU(m,1) = quantile(Samples(ll).ages(n,:),0.025);
-                    LMU(m,2) = quantile(Samples(ll).ages(n,:),0.5);
-                    LMU(m,3) = quantile(Samples(ll).ages(n,:),0.975);
-                    d18O(m,:) = (data(ll).d18O(n,:)-data(ll).shift)/data(ll).scale;
+                    LMU(m,1) = quantile(data(ll).age_samples(n,:),0.025);
+                    LMU(m,2) = quantile(data(ll).age_samples(n,:),0.5);
+                    LMU(m,3) = quantile(data(ll).age_samples(n,:),0.975);
+                    d18O(m,:) = (data(ll).d18O(n,:)-data(ll).d18O_shift)/data(ll).d18O_scale;
                     % IsOutlier(m,:) = H(n,:);
                 end
             end

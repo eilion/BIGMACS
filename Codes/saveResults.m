@@ -25,6 +25,119 @@ for ll = 1:L
 end
 
 
+setting_alignment = struct('data_type',cell(1,1));
+setting_alignment.data_type = setting.data_type;
+setting_alignment.IsLearn_transition = setting.IsLearn_transition;
+setting_alignment.stack_min = setting.stack_min;
+setting_alignment.stack_max = setting.stack_max;
+
+
+hyperparameter = struct('q',cell(1,1));
+hyperparameter.q = param.q;
+hyperparameter.d = param.d;
+hyperparameter.nParticles = param.nParticles;
+hyperparameter.max_iters = param.max_iters;
+hyperparameter.a_d18O = param.a_d18O;
+hyperparameter.b_d18O = param.b_d18O;
+hyperparameter.a_C14 = param.a_C14;
+hyperparameter.b_C14 = param.b_C14;
+hyperparameter.nSamples_learning = setting.nSamples_learning;
+hyperparameter.nSamples_drawing = setting.nSamples;
+
+
+setting_core = struct('start_depth',cell(L,1));
+for ll = 1:L
+    path = 'Defaults/setting_core.txt';
+    fileID = fopen(path);
+    INFO = textscan(fileID,'%s %s');
+    fclose(fileID);
+    
+    setting_core(ll).start_depth = str2double(INFO{2}{strcmp(INFO{1},'start_depth:')==1});
+    setting_core(ll).end_depth = str2double(INFO{2}{strcmp(INFO{1},'end_depth:')==1});
+    setting_core(ll).initial_shift = str2double(INFO{2}{strcmp(INFO{1},'initial_shift:')==1});
+    setting_core(ll).initial_scale = str2double(INFO{2}{strcmp(INFO{1},'initial_scale:')==1});
+    setting_core(ll).initial_average_sed_rate = str2double(INFO{2}{strcmp(INFO{1},'initial_average_sed_rate:')==1});
+    setting_core(ll).islearn_shift = INFO{2}{strcmp(INFO{1},'islearn_shift:')==1};
+    setting_core(ll).islearn_scale = INFO{2}{strcmp(INFO{1},'islearn_scale:')==1};
+    setting_core(ll).islearn_average_sed_rate = INFO{2}{strcmp(INFO{1},'islearn_average_sed_rate:')==1};
+    setting_core(ll).smoothness_bandwidth = str2double(INFO{2}{strcmp(INFO{1},'smoothness_bandwidth:')==1});
+    setting_core(ll).lower_bound = str2double(INFO{2}{strcmp(INFO{1},'lower_bound:')==1});
+    setting_core(ll).upper_bound = str2double(INFO{2}{strcmp(INFO{1},'upper_bound:')==1});
+    setting_core(ll).min_resolution = str2double(INFO{2}{strcmp(INFO{1},'min_resolution:')==1});
+    setting_core(ll).lower_sedrate = str2double(INFO{2}{strcmp(INFO{1},'lower_sedrate:')==1});
+    setting_core(ll).upper_sedrate = str2double(INFO{2}{strcmp(INFO{1},'upper_sedrate:')==1});
+    setting_core(ll).particle_bandwidth = str2double(INFO{2}{strcmp(INFO{1},'particle_bandwidth:')==1});
+    
+    path = ['Inputs/',inputFile,'/Records/',data(ll).name,'/setting_core.txt'];
+    if exist(path,'file') == 2
+        fileID = fopen(path);
+        INFO = textscan(fileID,'%s %s');
+        fclose(fileID);
+        
+        if sum(strcmp(INFO{1},'start_depth:')==1) == 1
+            setting_core(ll).start_depth = str2double(INFO{2}{strcmp(INFO{1},'start_depth:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'end_depth:')==1) == 1
+            setting_core(ll).end_depth = str2double(INFO{2}{strcmp(INFO{1},'end_depth:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'initial_shift:')==1) == 1
+            setting_core(ll).initial_shift = str2double(INFO{2}{strcmp(INFO{1},'initial_shift:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'initial_scale:')==1) == 1
+            setting_core(ll).initial_scale = str2double(INFO{2}{strcmp(INFO{1},'initial_scale:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'initial_average_sed_rate:')==1) == 1
+            setting_core(ll).initial_average_sed_rate = str2double(INFO{2}{strcmp(INFO{1},'initial_average_sed_rate:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'islearn_shift:')==1) == 1
+            setting_core(ll).islearn_shift = INFO{2}{strcmp(INFO{1},'islearn_shift:')==1};
+        end
+        
+        if sum(strcmp(INFO{1},'islearn_scale:')==1) == 1
+            setting_core(ll).islearn_scale = INFO{2}{strcmp(INFO{1},'islearn_scale:')==1};
+        end
+        
+        if sum(strcmp(INFO{1},'islearn_average_sed_rate:')==1) == 1
+            setting_core(ll).islearn_average_sed_rate = INFO{2}{strcmp(INFO{1},'islearn_average_sed_rate:')==1};
+        end
+        
+        if sum(strcmp(INFO{1},'lower_bound:')==1) == 1
+            setting_core(ll).lower_bound = str2double(INFO{2}{strcmp(INFO{1},'lower_bound:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'upper_bound:')==1) == 1
+            setting_core(ll).upper_bound = str2double(INFO{2}{strcmp(INFO{1},'upper_bound:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'min_resolution:')==1) == 1
+            setting_core(ll).min_resolution = str2double(INFO{2}{strcmp(INFO{1},'min_resolution:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'lower_sedrate:')==1) == 1
+            setting_core(ll).lower_sedrate = str2double(INFO{2}{strcmp(INFO{1},'lower_sedrate:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'upper_sedrate:')==1) == 1
+            setting_core(ll).upper_sedrate = str2double(INFO{2}{strcmp(INFO{1},'upper_sedrate:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'smoothness_bandwidth:')==1) == 1
+            setting_core(ll).smoothness_bandwidth = str2double(INFO{2}{strcmp(INFO{1},'smoothness_bandwidth:')==1});
+        end
+        
+        if sum(strcmp(INFO{1},'particle_bandwidth:')==1) == 1
+            setting_core(ll).particle_bandwidth = str2double(INFO{2}{strcmp(INFO{1},'particle_bandwidth:')==1});
+        end
+    end
+    
+end
+
+
 
 for ll = 1:L
     M = length(samples(ll).isoutlier);
@@ -42,12 +155,11 @@ for ll = 1:L
         end
     end
     samples(ll).isoutlier = AA;
+    
+    summary(ll).isoutlier = samples(ll).isoutlier;
 end
 
 if strcmp(inputMode,'alignment')
-    
-    setting = rmfield(setting,'nSamples_learning');
-    setting = rmfield(setting,'nSamples');
     
     data = rmfield(data,'is_top_14C_inlier');
     data = rmfield(data,'ACC_CONTRACTION');
@@ -83,10 +195,10 @@ if strcmp(inputMode,'alignment')
     mkdir(path);
     
     
-    fileID = [path,'/new_transition_parameter.txt'];
+    fileID = [path,'/transition_parameter.txt'];
     writematrix(TRAN_MAT,fileID,'Delimiter','tab');
     
-        
+    
     if strcmp(setting.data_type,'C14') || strcmp(setting.data_type,'both')
         CI_C14 = getCI_C14(data,target);
         
@@ -126,11 +238,12 @@ if strcmp(inputMode,'alignment')
         CI_C14 = rmfield(CI_C14,'upper');
         
         
+        
         fileID = [path,'/results.mat'];
-        save(fileID,'summary','data','samples','CI_C14','param','target','setting');
+        save(fileID,'summary','CI_C14','target','setting_alignment','setting_core','hyperparameter');
     else
         fileID = [path,'/results.mat'];
-        save(fileID,'summary','data','samples','param','target','setting');
+        save(fileID,'summary','target','setting_alignment','setting_core','hyperparameter');
     end
     
     
@@ -148,11 +261,17 @@ if strcmp(inputMode,'alignment')
         end
         fclose(fid);
     end
-
+    
 elseif strcmp(inputMode,'stacking')
     
     setting.start_age = setting.st;
     setting.end_age = setting.ed;
+    
+    setting_stacking = struct('start_age',cell(1,1));
+    setting_stacking.start_age = setting.start_age;
+    setting_stacking.end_age = setting.end_age;
+    setting_stacking.interval = setting.interval;
+    setting_stacking.interval_induced = setting.interval_induced;
     
     setting = rmfield(setting,'st');
     setting = rmfield(setting,'ed');
@@ -169,9 +288,6 @@ elseif strcmp(inputMode,'stacking')
     
     setting = rmfield(setting,'variance');
     setting = rmfield(setting,'kernel_function');
-    
-    setting = rmfield(setting,'nSamples_learning');
-    setting = rmfield(setting,'nSamples');
     
     data = rmfield(data,'is_top_14C_inlier');
     data = rmfield(data,'ACC_CONTRACTION');
@@ -206,7 +322,7 @@ elseif strcmp(inputMode,'stacking')
     end
     mkdir(path);
     
-    fileID = [path,'/new_transition_parameter.txt'];
+    fileID = [path,'/transition_parameter.txt'];
     writematrix(TRAN_MAT,fileID,'Delimiter','tab');
     
     if strcmp(setting.data_type,'C14') || strcmp(setting.data_type,'both')
@@ -246,12 +362,11 @@ elseif strcmp(inputMode,'stacking')
         CI_C14 = rmfield(CI_C14,'MD');
         CI_C14 = rmfield(CI_C14,'upper');
         
-        
         fileID = [path,'/results.mat'];
-        save(fileID,'summary','data','samples','CI_C14','param','target','setting');
+        save(fileID,'summary','CI_C14','target','setting_alignment','setting_stacking','setting_core','hyperparameter');
     else
         fileID = [path,'/results.mat'];
-        save(fileID,'summary','data','samples','param','target','setting');
+        save(fileID,'summary','target','setting_alignment','setting_stacking','setting_core','hyperparameter');
     end
     
     fileID = [path,'/stack.txt'];

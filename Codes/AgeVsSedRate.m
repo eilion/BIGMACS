@@ -7,7 +7,7 @@ if exist(path,'dir') ~= 7
     mkdir(path);
 end
 
-samples = results.samples;
+data = results.summary;
 
 L = 1;
 
@@ -15,17 +15,18 @@ clear results;
 
 cc = zeros(1,3);
 
-M = length(samples);
+M = length(data);
 
-SAMPLES = cell(L,1);
 data = cell(L,1);
+setting = cell(L,1);
+
 data_type = cell(L,1);
 
 results = load([results_path,'/results.mat']);
 
-SAMPLES{1} = results.samples;
-data{1} = results.data;
-data_type{1} = results.setting.data_type;
+setting{1} = results.setting_core;
+data{1} = results.summary;
+data_type{1} = results.setting_alignment.data_type;
 if strcmp(data_type{1},'both') == 1
     data_type{1} = 'dual proxy';
 end
@@ -45,8 +46,8 @@ for m = 1:M
     MAX = -inf;
     
     for ll = 1:L
-        Age = SAMPLES{ll}(m).ages;
-        Depth = SAMPLES{ll}(m).depth;
+        Age = data{ll}(m).age_samples;
+        Depth = data{ll}(m).depth;
         
         % age{ll} = (Age(2:end,:)+Age(1:end-1,:))/2;
         age{ll} = Age(2:end,:);
@@ -89,7 +90,7 @@ for m = 1:M
     fig = figure;
     subplot(2,1,1);
     hold on;
-    tt = SAMPLES{1}(m).name;
+    tt = data{1}(m).name;
     tt(tt=='_') = '-';
     title(tt,'FontSize',16);
     for ll = 1:L
@@ -117,8 +118,8 @@ for m = 1:M
     MAX = -inf;
     
     for ll = 1:L
-        Age = SAMPLES{ll}(m).ages;
-        Depth = SAMPLES{ll}(m).depth;
+        Age = data{ll}(m).age_samples;
+        Depth = data{ll}(m).depth;
         R = data{ll}(m).R;
         
         % age{ll} = (Age(2:end,:)+Age(1:end-1,:))/2;
@@ -162,7 +163,7 @@ for m = 1:M
     h = zeros(L,1);
     subplot(2,1,2);
     hold on;
-    tt = SAMPLES{1}(m).name;
+    tt = data{1}(m).name;
     tt(tt=='_') = '-';
     title(tt,'FontSize',16);
     for ll = 1:L
@@ -172,14 +173,14 @@ for m = 1:M
         h(ll) = plot(MEANs{ll}(1,:),MEANs{ll}(2,:),':*','Linewidth',2,'Color',cc(ll,:));
     end
     for ll = 1:L
-        if isfield(data{ll},'lower_sedrate') == 1
-            if ~isnan(data{ll}(m).lower_sedrate) && ~isinf(data{ll}(m).lower_sedrate)
-                plot([0,MAX],[log(data{ll}(m).lower_sedrate),log(data{ll}(m).lower_sedrate)],'--','Linewidth',2,'Color',cc(ll,:));
+        if isfield(setting{ll},'lower_sedrate') == 1
+            if ~isnan(setting{ll}(m).lower_sedrate) && ~isinf(setting{ll}(m).lower_sedrate)
+                plot([0,MAX],[log(setting{ll}(m).lower_sedrate),log(setting{ll}(m).lower_sedrate)],'--','Linewidth',2,'Color',cc(ll,:));
             end
         end
-        if isfield(data{ll},'upper_sedrate') == 1
-            if ~isnan(data{ll}(m).upper_sedrate) && ~isinf(data{ll}(m).upper_sedrate)
-                plot([0,MAX],[log(data{ll}(m).upper_sedrate),log(data{ll}(m).upper_sedrate)],'--','Linewidth',2,'Color',cc(ll,:));
+        if isfield(setting{ll},'upper_sedrate') == 1
+            if ~isnan(setting{ll}(m).upper_sedrate) && ~isinf(setting{ll}(m).upper_sedrate)
+                plot([0,MAX],[log(setting{ll}(m).upper_sedrate),log(setting{ll}(m).upper_sedrate)],'--','Linewidth',2,'Color',cc(ll,:));
             end
         end
     end
@@ -191,7 +192,7 @@ for m = 1:M
     set(fig,'Position',[10 10 1200 1100]);
     movegui(fig,'center');
     
-    path = [results_path,'/figures/age_vs_sed_rate/',SAMPLES{1}(m).name,'.fig'];
+    path = [results_path,'/figures/age_vs_sed_rate/',data{1}(m).name,'.fig'];
     savefig(fig,path);
 end
 

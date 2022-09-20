@@ -2,9 +2,8 @@ function AgeVsDepth(results_path)
 
 results = load([results_path,'/results.mat']);
 
-data = results.data;
-samples = results.samples;
-setting = results.setting;
+data = results.summary;
+setting = results.setting_alignment;
 
 data_type = setting.data_type;
 if strcmp(data_type,'both') == 1
@@ -22,11 +21,11 @@ end
 
 clear results;
 
-M = length(samples);
+M = length(data);
 
 for m = 1:M
-    Age = samples(m).ages;
-    Depth = samples(m).depth;
+    Age = data(m).age_samples;
+    Depth = data(m).depth;
     
     N = length(Depth);
     LMU = zeros(N,3);
@@ -88,13 +87,13 @@ for m = 1:M
     
     DET = 0;
     for n = 1:N
-        if ~isnan(data(m).suggested_age(n,1))
+        if ~isnan(data(m).additional_ages(n,1))
             DET = 1;
-            mu = data(m).suggested_age(n,1);
-            sig = data(m).suggested_age(n,2);
-            if data(m).suggested_age(n,3) == 0
+            mu = data(m).additional_ages(n,1);
+            sig = data(m).additional_ages(n,2);
+            if data(m).additional_ages(n,3) == 0
                 h(q+1) = plot([max(mu-1.96*sig,0),min(mu+1.96*sig,MAX)],[data(m).depth(n),data(m).depth(n)],'--m','LineWidth',2);
-            elseif data(m).suggested_age(n,3) == 1
+            elseif data(m).additional_ages(n,3) == 1
                 h(q+1) = plot([max(mu-sig,0),min(mu+sig,MAX)],[data(m).depth(n),data(m).depth(n)],'m','LineWidth',2);
             end
         end
@@ -164,13 +163,13 @@ for m = 1:M
     
     DET = 0;
     for n = 1:N
-        if ~isnan(data(m).suggested_age(n,1))
+        if ~isnan(data(m).additional_ages(n,1))
             DET = 1;
-            mu = data(m).suggested_age(n,1);
-            sig = data(m).suggested_age(n,2);
-            if data(m).suggested_age(n,3) == 0
+            mu = data(m).additional_ages(n,1);
+            sig = data(m).additional_ages(n,2);
+            if data(m).additional_ages(n,3) == 0
                 h(q+1) = plot([max(mu-1.96*sig,0),min(mu+1.96*sig,MAX)],[data(m).depth(n),data(m).depth(n)],'--m','LineWidth',2);
-            elseif data(m).suggested_age(n,3) == 1
+            elseif data(m).additional_ages(n,3) == 1
                 h(q+1) = plot([max(mu-sig,0),min(mu+sig,MAX)],[data(m).depth(n),data(m).depth(n)],'m','LineWidth',2);
             end
         end

@@ -1,11 +1,10 @@
-ACC_MODEL: lognormal_depth
 start_depth: NaN
 end_depth: NaN
 initial_shift: NaN
 initial_scale: 1
 initial_average_sed_rate: NaN
 islearn_shift: yes
-islearn_scale: no
+islearn_scale: yes
 islearn_average_sed_rate: adaptive
 smoothness_bandwidth: 20
 lower_bound: NaN

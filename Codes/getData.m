@@ -1,7 +1,7 @@
 function [data,data_ps,param,setting] = getData(inputFile,target,setting,MODE)
 
 % global parameters:
-param = struct('q',cell(1,1),'d',cell(1,1),'nParticles',cell(1,1),'v',cell(1,1),'max_iters',cell(1,1),'h',cell(1,1),'tran_param',cell(1,1));
+param = struct('q',cell(1,1),'d',cell(1,1),'nParticles',cell(1,1),'max_iters',cell(1,1),'tran_param',cell(1,1));
 path = 'Defaults/hyperparameter.txt';
 fileID = fopen(path);
 INFO = textscan(fileID,'%s %s');
@@ -352,7 +352,7 @@ for ll = 1:L
     INFO = textscan(fileID,'%s %s');
     fclose(fileID);
     
-    data(ll).ACC_MODEL = INFO{2}{strcmp(INFO{1},'ACC_MODEL:')==1};
+    data(ll).ACC_MODEL = 'lognormal_depth';
     data(ll).start_depth = str2double(INFO{2}{strcmp(INFO{1},'start_depth:')==1});
     data(ll).end_depth = str2double(INFO{2}{strcmp(INFO{1},'end_depth:')==1});
     data(ll).initial_shift = str2double(INFO{2}{strcmp(INFO{1},'initial_shift:')==1});
@@ -377,10 +377,6 @@ for ll = 1:L
         fileID = fopen(path);
         INFO = textscan(fileID,'%s %s');
         fclose(fileID);
-        
-        if sum(strcmp(INFO{1},'ACC_MODEL:')==1) == 1
-            data(ll).ACC_MODEL = INFO{2}{strcmp(INFO{1},'ACC_MODEL:')==1};
-        end
         
         if sum(strcmp(INFO{1},'start_depth:')==1) == 1
             data(ll).start_depth = str2double(INFO{2}{strcmp(INFO{1},'start_depth:')==1});

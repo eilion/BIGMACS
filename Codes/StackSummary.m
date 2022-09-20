@@ -2,11 +2,10 @@ function StackSummary(results_path)
 
 results = load([results_path,'/results.mat']);
 
-data = results.data;
-Samples = results.samples;
+data = results.summary;
 stack = results.target.stack;
 old_stack = results.target.init_stack;
-setting = results.setting;
+setting = results.setting_alignment;
 
 data_type = setting.data_type;
 
@@ -46,7 +45,7 @@ if ~strcmp(data_type,'C14')
     
     for ll = 1:L
         for k = 1:size(data(ll).d18O,2)
-            h(2+ll) = plot(Samples(ll).ages(:,k),data(ll).d18O(:,k),'*','Color',cc(ll,:));
+            h(2+ll) = plot(data(ll).age_samples(:,k),data(ll).d18O(:,k),'*','Color',cc(ll,:));
         end
     end
     
@@ -72,12 +71,12 @@ if ~strcmp(data_type,'C14')
     AGE = cell(L,1);
     D18O = cell(L,1);
     for ll = 1:L
-        age = median(Samples(ll).ages,2);
+        age = median(data(ll).age_samples,2);
         AMAX = size(data(ll).d18O,2);
         age = repmat(age,[1,AMAX]);
         index = (~isnan(data(ll).d18O));
         AGE{ll} = age(index);
-        D18O{ll} = (data(ll).d18O(index)-data(ll).shift)/data(ll).scale;
+        D18O{ll} = (data(ll).d18O(index)-data(ll).d18O_shift)/data(ll).d18O_scale;
     end
     h = zeros(L,1);
     fig = figure;
@@ -112,14 +111,14 @@ if ~strcmp(data_type,'C14')
     D18O = cell(L,1);
     M = inf;
     for ll = 1:L
-        M = min([M,size(Samples(ll).ages,2)]);
+        M = min([M,size(data(ll).age_samples,2)]);
     end
     
     for ll = 1:L
         AMAX = size(data(ll).d18O,2);
         
-        Age = Samples(ll).ages(:,1:M);
-        d18O = (data(ll).d18O-data(ll).shift)/data(ll).scale;
+        Age = data(ll).age_samples(:,1:M);
+        d18O = (data(ll).d18O-data(ll).d18O_shift)/data(ll).d18O_scale;
         index = (~isnan(d18O));
         
         XX = cell(M,1);
