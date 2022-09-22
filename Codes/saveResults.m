@@ -362,12 +362,52 @@ elseif strcmp(inputMode,'stacking')
         CI_C14 = rmfield(CI_C14,'MD');
         CI_C14 = rmfield(CI_C14,'upper');
         
+        
+        MIN = inf;
+        MAX = -inf;
+        for ll = 1:L
+            GG = quantile(summary(ll).age_samples(end,:),0.975);
+            MAX = max(MAX,GG);
+            
+            GG = quantile(summary(ll).age_samples(1,:),0.025);
+            MIN = min(MIN,GG);
+        end
+        
+        MAX = ceil(MAX/10)*10;
+        MIN = floor(MIN/10)*10;
+        
+        ID = (target.stack(:,1)<=MAX)&(target.stack(:,1)>=MIN);
+        target.stack = target.stack(ID,:);
+        target.stack_sample = target.stack_sample(ID,:,:);
+        
+        
+        
         fileID = [path,'/results.mat'];
         save(fileID,'summary','CI_C14','target','setting_alignment','setting_stacking','setting_core','hyperparameter');
     else
+        
+        MIN = inf;
+        MAX = -inf;
+        for ll = 1:L
+            GG = quantile(summary(ll).age_samples(end,:),0.975);
+            MAX = max(MAX,GG);
+            
+            GG = quantile(summary(ll).age_samples(1,:),0.025);
+            MIN = min(MIN,GG);
+        end
+        
+        MAX = ceil(MAX/10)*10;
+        MIN = floor(MIN/10)*10;
+        
+        ID = (target.stack(:,1)<=MAX)&(target.stack(:,1)>=MIN);
+        target.stack = target.stack(ID,:);
+        target.stack_sample = target.stack_sample(ID,:,:);
+        
+        
         fileID = [path,'/results.mat'];
         save(fileID,'summary','target','setting_alignment','setting_stacking','setting_core','hyperparameter');
     end
+    
     
     fileID = [path,'/stack.txt'];
     fid = fopen(fileID,'wt');
