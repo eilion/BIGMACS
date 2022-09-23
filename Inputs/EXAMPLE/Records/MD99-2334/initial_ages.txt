@@ -1,4 +1,0 @@
-depth(m) initial_age(kiloyear)
-0.14 1.5
-0.16 1.5
-4.66 34
