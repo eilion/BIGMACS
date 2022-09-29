@@ -30,7 +30,11 @@ if isempty(WWB) == 1
         ID = (abs(data.initial_age(:,1)-data.depth(nn))<1e-6);
         if sum(ID) > 0
             ZZ = data.initial_age(ID,2);
-            SAM_A = ZZ(1)*ones(1,S);
+            if ZZ(1) > age_st && ZZ(1) < age_ed
+                SAM_A = ZZ(1)*ones(1,S);
+            else
+                SAM_A = (age_ed-age_st).*rand(1,S) + age_st;
+            end
         else
             age_range = age_ed - age_st;
             % Sample ages:
