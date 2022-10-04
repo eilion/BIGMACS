@@ -1,4 +1,15 @@
-function BIGMACS(inputFile,inputMode)
+function BIGMACS(varargin)
+% function BIGMACS(inputFile,inputMode)
+
+inputFile = varargin{1};
+inputMode = varargin{2};
+
+if length(varargin) == 2
+    FIG_MODE = 'no';
+elseif length(varargin) == 3
+    FIG_MODE = varargin{3};
+end
+
 
 addpath('Codes/');
 
@@ -20,7 +31,7 @@ end
 
 disp('#  Results and figures are being stored...');
 savePath = saveResults(data,samples,param,target,setting,inputFile,inputMode);
-saveFigures(inputFile,savePath);
+saveFigures(savePath,FIG_MODE);
 disp('   Done.');
 disp(['   Results and figures are stored in ',savePath,'.']);
 disp('-------------------------------------------------------------------------------------------');
