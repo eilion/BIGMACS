@@ -31,7 +31,7 @@ end
 
 disp('#  Results and figures are being stored...');
 savePath = saveResults(data,samples,param,target,setting,inputFile,inputMode);
-saveFigures(savePath,FIG_MODE);
+saveFigures(inputFile,savePath,inputMode,FIG_MODE);
 disp('   Done.');
 disp(['   Results and figures are stored in ',savePath,'.']);
 disp('-------------------------------------------------------------------------------------------');
