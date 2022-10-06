@@ -687,6 +687,12 @@ for ll = 1:L
 end
 
 
+for ll = 1:L
+    data(ll).suggested_age(:,3) = 1 - data(ll).suggested_age(:,3);
+end
+
+
+
 % truncate records:
 data_ps = data;
 

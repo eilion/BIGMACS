@@ -131,7 +131,7 @@ else
         index = (VV<=0)|(VV>=0.9220);
         MargLik(index) = -inf;
         
-        index = (VV<data.lower_sedrate)|(VV>data.upper_sedrate);
+        index = (VV<data.lower_sedrate-0.001)|(VV>data.upper_sedrate+0.001);
         MargLik(index) = -inf;
         
         AMAX = max(MargLik);
@@ -182,7 +182,7 @@ else
         index = (VV<0.9220)|(VV>=1.0850);
         MargLik(index) = -inf;
         
-        index = (VV<data.lower_sedrate)|(VV>data.upper_sedrate);
+        index = (VV<data.lower_sedrate-0.001)|(VV>data.upper_sedrate+0.001);
         MargLik(index) = -inf;
         
         AMAX = max(MargLik);
@@ -233,7 +233,7 @@ else
         index = (VV<1.0850);
         MargLik(index) = -inf;
         
-        index = (VV<data.lower_sedrate)|(VV>data.upper_sedrate);
+        index = (VV<data.lower_sedrate-0.001)|(VV>data.upper_sedrate+0.001);
         MargLik(index) = -inf;
         
         AMAX = max(MargLik);
@@ -350,13 +350,13 @@ else
         index = (VV_E<=0)|(VV_E>=0.9220);
         MargLik_E(index) = -inf;
         
-        index = (VV_C<data.lower_sedrate)|(VV_C>data.upper_sedrate);
+        index = (VV_C<data.lower_sedrate-0.001)|(VV_C>data.upper_sedrate+0.001);
         MargLik_C(index) = -inf;
         
-        index = (VV_M<data.lower_sedrate)|(VV_M>data.upper_sedrate);
+        index = (VV_M<data.lower_sedrate-0.001)|(VV_M>data.upper_sedrate+0.001);
         MargLik_M(index) = -inf;
         
-        index = (VV_E<data.lower_sedrate)|(VV_E>data.upper_sedrate);
+        index = (VV_E<data.lower_sedrate-0.001)|(VV_E>data.upper_sedrate+0.001);
         MargLik_E(index) = -inf;
         
         MargLik = [MargLik_C;MargLik_M;MargLik_E];
@@ -421,13 +421,13 @@ else
         index = (VV_E<0.9220)|(VV_E>=1.0850);
         MargLik_E(index) = -inf;
         
-        index = (VV_C<data.lower_sedrate)|(VV_C>data.upper_sedrate);
+        index = (VV_C<data.lower_sedrate-0.001)|(VV_C>data.upper_sedrate+0.001);
         MargLik_C(index) = -inf;
         
-        index = (VV_M<data.lower_sedrate)|(VV_M>data.upper_sedrate);
+        index = (VV_M<data.lower_sedrate-0.001)|(VV_M>data.upper_sedrate+0.001);
         MargLik_M(index) = -inf;
         
-        index = (VV_E<data.lower_sedrate)|(VV_E>data.upper_sedrate);
+        index = (VV_E<data.lower_sedrate-0.001)|(VV_E>data.upper_sedrate+0.001);
         MargLik_E(index) = -inf;
         
         MargLik = [MargLik_C;MargLik_M;MargLik_E];
@@ -492,13 +492,13 @@ else
         index = (VV_E<1.0850);
         MargLik_E(index) = -inf;
         
-        index = (VV_C<data.lower_sedrate)|(VV_C>data.upper_sedrate);
+        index = (VV_C<data.lower_sedrate-0.001)|(VV_C>data.upper_sedrate+0.001);
         MargLik_C(index) = -inf;
         
-        index = (VV_M<data.lower_sedrate)|(VV_M>data.upper_sedrate);
+        index = (VV_M<data.lower_sedrate-0.001)|(VV_M>data.upper_sedrate+0.001);
         MargLik_M(index) = -inf;
         
-        index = (VV_E<data.lower_sedrate)|(VV_E>data.upper_sedrate);
+        index = (VV_E<data.lower_sedrate-0.001)|(VV_E>data.upper_sedrate+0.001);
         MargLik_E(index) = -inf;
         
         MargLik = [MargLik_C;MargLik_M;MargLik_E];

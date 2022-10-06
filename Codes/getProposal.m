@@ -162,7 +162,7 @@ AAA = interp1(depth,AA,depth_full);
 
 QQ = zeros(N,2);
 QQ(:,1) = mean(AAA,2);
-QQ(:,2) = var(AAA,1,2) + 1.285*data.PTCL_BW;
+QQ(:,2) = sqrt(var(AAA,1,2)) + 1.285*data.PTCL_BW;
 
 
 end
