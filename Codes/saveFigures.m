@@ -33,7 +33,7 @@ if strcmp(FIG_MODE,'show') || strcmp(FIG_MODE,'hide')
     end
     fstack = target.stack;
     
-    if strcmp(inputMode,'stack_construction')
+    if strcmp(inputMode,'stack_construction') || strcmp(inputMode,'stacking')
         figure(100); % stack summary figure
         hold on;
         shadebetweenlines(fstack(:,1),fstack(:,2)+1.96*fstack(:,3),fstack(:,2)-1.96*fstack(:,3),[0 0 0]);
@@ -190,7 +190,7 @@ if strcmp(FIG_MODE,'show') || strcmp(FIG_MODE,'hide')
         
         
         % stack summary figure
-        if strcmp(inputMode,'stack_construction')
+        if strcmp(inputMode,'stack_construction') || strcmp(inputMode,'stacking')
             figure(100);
             h = gca;
             hold on;
@@ -202,7 +202,7 @@ if strcmp(FIG_MODE,'show') || strcmp(FIG_MODE,'hide')
         end
     end
     %
-    if strcmp(inputMode,'stack_construction')
+    if strcmp(inputMode,'stack_construction') || strcmp(inputMode,'stacking')
         figure(100);
         hold on;
         title(TITLE);
