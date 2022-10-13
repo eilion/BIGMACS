@@ -70,7 +70,7 @@ if strcmp(MODE,'stacking')
     setting.st = str2double(INFO{2}{strcmp(INFO{1},'start_age:')==1});
     setting.ed = str2double(INFO{2}{strcmp(INFO{1},'end_age:')==1});
     setting.interval = str2double(INFO{2}{strcmp(INFO{1},'interval:')==1});
-    setting.interval_induced = str2double(INFO{2}{strcmp(INFO{1},'interval_induced:')==1});
+    setting.interval_induced = 0.5;
     
     path = ['Inputs/',inputFile,'/setting_stacking.txt'];
     if exist(path,'file') == 2
@@ -88,10 +88,6 @@ if strcmp(MODE,'stacking')
         
         if sum(strcmp(INFO{1},'interval:')==1) == 1
             setting.interval = str2double(INFO{2}{strcmp(INFO{1},'interval:')==1});
-        end
-        
-        if sum(strcmp(INFO{1},'interval_induced:')==1) == 1
-            setting.interval_induced = str2double(INFO{2}{strcmp(INFO{1},'interval_induced:')==1});
         end
     end
 end

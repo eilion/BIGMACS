@@ -380,6 +380,10 @@ elseif strcmp(inputMode,'stacking')
         target.stack = target.stack(ID,:);
         target.stack_sample = target.stack_sample(ID,:,:);
         
+        target.stack_sample_mean = target.stack_sample(:,:,1);
+        target.stack_sample_noisy = target.stack_sample(:,:,2);
+        target = rmfield(target,'target.stack_sample');
+        
         
         
         fileID = [path,'/results.mat'];
@@ -402,6 +406,11 @@ elseif strcmp(inputMode,'stacking')
         ID = (target.stack(:,1)<=MAX)&(target.stack(:,1)>=MIN);
         target.stack = target.stack(ID,:);
         target.stack_sample = target.stack_sample(ID,:,:);
+        
+        target.stack_sample_mean = target.stack_sample(:,:,1);
+        target.stack_sample_noisy = target.stack_sample(:,:,2);
+        target = rmfield(target,'target.stack_sample');
+        
         
         
         fileID = [path,'/results.mat'];

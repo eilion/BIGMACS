@@ -210,6 +210,8 @@ if strcmp(FIG_MODE,'show') || strcmp(FIG_MODE,'hide')
         legend(summary.name,'location','northeastoutside');
         xlabel('Age (kyr)');
         ylabel(['\delta^1^8O (',char(8240),')']);
+        xlim([min(fstack.stack(:,1)) max(fstack.stack(:,1))]);
+        
         grid on;
         set(gcf,'position',[200 200 1200 800],'color','w');
         saveas(gcf,[savePath,'/figures/stack_summary.png']);

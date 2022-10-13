@@ -352,7 +352,7 @@ for ll = 1:L
     INFO = textscan(fileID,'%s %s');
     fclose(fileID);
     
-    data(ll).ACC_MODEL = 'lognormal_depth';
+    data(ll).ACC_MODEL = 'lognormal';
     data(ll).start_depth = str2double(INFO{2}{strcmp(INFO{1},'start_depth:')==1});
     data(ll).end_depth = str2double(INFO{2}{strcmp(INFO{1},'end_depth:')==1});
     data(ll).initial_shift = str2double(INFO{2}{strcmp(INFO{1},'initial_shift:')==1});
