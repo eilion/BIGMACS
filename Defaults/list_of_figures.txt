@@ -1,4 +1,0 @@
-age_vs_d18O
-age_vs_depth
-age_vs_sedRate
-stack_summary
