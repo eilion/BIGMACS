@@ -1,4 +1,4 @@
-inputFile = 'GIK13289_2';
+inputFile = 'R6';
 
 inputMode = 'age_model_construction';
 % inputMode = 'stack_construction';
