@@ -1,5 +1,4 @@
 function BIGMACS(varargin)
-% function BIGMACS(inputFile,inputMode)
 
 inputFile = varargin{1};
 inputMode = varargin{2};

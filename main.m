@@ -1,6 +1,10 @@
-inputFile = 'R6';
+inputFile = 'GIK13289_2';
 
 inputMode = 'age_model_construction';
 % inputMode = 'stack_construction';
 
-BIGMACS(inputFile,inputMode,'show');
+printFig = 'show';
+% printFig = 'hide';
+
+BIGMACS(inputFile,inputMode,printFig);
+% BIGMACS(inputFile,inputMode);
