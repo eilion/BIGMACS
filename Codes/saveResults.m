@@ -382,7 +382,7 @@ elseif strcmp(inputMode,'stacking')
         
         target.stack_sample_mean = target.stack_sample(:,:,1);
         target.stack_sample_noisy = target.stack_sample(:,:,2);
-        target = rmfield(target,'target.stack_sample');
+        target = rmfield(target,'stack_sample');
         
         
         
@@ -409,7 +409,7 @@ elseif strcmp(inputMode,'stacking')
         
         target.stack_sample_mean = target.stack_sample(:,:,1);
         target.stack_sample_noisy = target.stack_sample(:,:,2);
-        target = rmfield(target,'target.stack_sample');
+        target = rmfield(target,'stack_sample');
         
         
         
@@ -429,10 +429,10 @@ elseif strcmp(inputMode,'stacking')
     fclose(fid);
     
     fileID = [path,'/stack_samples_mean.txt'];
-    writematrix(target.stack_sample(:,:,1),fileID,'Delimiter','space');
+    writematrix(target.stack_sample_mean,fileID,'Delimiter','space');
     
     fileID = [path,'/stack_samples_noisy.txt'];
-    writematrix(target.stack_sample(:,:,2),fileID,'Delimiter','space');
+    writematrix(target.stack_sample_noisy,fileID,'Delimiter','space');
     
     path_txt = [path,'/ages'];
     mkdir(path_txt);
