@@ -1,5 +1,7 @@
 function BIGMACS(varargin)
 
+close all;
+
 inputFile = varargin{1};
 inputMode = varargin{2};
 
