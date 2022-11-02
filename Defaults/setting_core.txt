@@ -10,6 +10,6 @@ smoothness_bandwidth: 20
 lower_bound: NaN
 upper_bound: NaN
 min_resolution: 0.145675
-lower_sedrate: 1/8
+lower_sedrate: 0.125
 upper_sedrate: 8
 particle_bandwidth: 7
