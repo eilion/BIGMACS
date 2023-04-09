@@ -49,8 +49,9 @@ for m = 1:M
     X{m} = vertcat(XX{:});
     Y{m} = vertcat(YY{:});
     H{m} = vertcat(HH{:});
-    % H{m} = zeros(size(X{m},1),1);
 end
+
+BIAS = (quantile(Y{m},0.9)+quantile(Y{m},0.1))/2;
 
 for m = 1:M
     IND = zeros(size(X0{m},1),1);
@@ -65,7 +66,7 @@ end
 for m = 1:M
     N = size(X{m},1);
     R{m} = param.lambda*ones(N,1);
-    Y{m} = Y{m} - 4;
+    Y{m} = Y{m} - BIAS;
 end
 
 
@@ -85,7 +86,7 @@ end
 for m = 1:M
     param.mu{m} = MU{m};
     param.nu{m} = NU{m};
-    Y{m} = Y{m} + 4;
+    Y{m} = Y{m} + BIAS;
 end
 
 
@@ -105,7 +106,7 @@ for m = 1:M
     
     XX0 = X0{m};
     XX = X{m}(H{m}==0);
-    YY = Y{m}(H{m}==0) - 4;
+    YY = Y{m}(H{m}==0) - BIAS;
     
     N = size(XX,1);
     if strcmp(setting.variance,'heteroscedastic') == 1
@@ -134,7 +135,7 @@ for m = 1:M
     WW_inv = (K_00+K_X0'*(K_X0./RR))\eye(N0);
     QQ_inv = WW_inv - K_00\eye(N0);
     
-    MU(:,m) = K_T0*(WW_inv*(K_X0'*(YY./RR))) + 4;
+    MU(:,m) = K_T0*(WW_inv*(K_X0'*(YY./RR))) + BIAS;
     NU(:,m) = K_TT + RRT + sum((K_T0*QQ_inv).*K_T0,2);
     
     % MU(:,m) = MU(:,m)*param.scale + param.shift;
