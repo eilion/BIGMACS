@@ -89,6 +89,10 @@ if strcmp(MODE,'stacking')
         if sum(strcmp(INFO{1},'interval:')==1) == 1
             setting.interval = str2double(INFO{2}{strcmp(INFO{1},'interval:')==1});
         end
+
+        if sum(strcmp(INFO{1},'interval_induced:')==1) == 1
+            setting.interval_induced = str2double(INFO{2}{strcmp(INFO{1},'interval_induced:')==1});
+        end
     end
 end
 
