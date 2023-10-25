@@ -99,6 +99,7 @@ else
     list = dir(path);
     list(strcmp({list.name},'.')) = [];
     list(strcmp({list.name},'..')) = [];
+    list(strcmp({list.name},'.DS_Store')) = [];
     
     L = length(list);
     core_title = cell(L,1);
