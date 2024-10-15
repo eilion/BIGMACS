@@ -1,4 +1,4 @@
-# BIGMACS (v1.0)
+# BIGMACS (v1.1)
 
 [![DOI](https://zenodo.org/badge/197074463.svg)](https://zenodo.org/badge/latestdoi/197074463)
 
