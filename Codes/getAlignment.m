@@ -25,6 +25,11 @@ while iters < max_iters && sum(TT) > 0
     parfor ll = 1:L
         if TT(ll) == 1
             Samples(ll) = Particle_Smoothing(QQ{ll},data(ll),data_ps(ll),Samples(ll),param,target,data_type,nsamples_learning);
+        end
+    end
+    
+    parfor ll = 1:L
+        if TT(ll) == 1
             [Samples(ll),QQ{ll}] = MCMC_MH(data(ll),Samples(ll),param,target,data_type,nsamples_learning);
         end
     end

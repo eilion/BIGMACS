@@ -78,8 +78,8 @@ RR = zeros(N-1,M);
 for m = 1:M
     RR(:,m) = interp1(R(:,1),R(:,2),A(2:end,m));
 end
-ZZ((A(2:end,:)-A(1:end-1,:))./(depth_diff.*RR)<=1.0850) = 2;
-ZZ((A(2:end,:)-A(1:end-1,:))./(depth_diff.*RR)<=0.9220) = 1;
+ZZ((A(2:end,:)-A(1:end-1,:))./(depth_diff.*RR)<=1./0.9220) = 2;
+ZZ((A(2:end,:)-A(1:end-1,:))./(depth_diff.*RR)<=1./1.0850) = 1;
 Z = zeros(N,M);
 Z(1:N-1,:) = ZZ;
 Z(N,:) = 4;
@@ -94,8 +94,8 @@ for iters = 1:max_iters
     Z1_old = Z(1,:);
     Z1_new = 3*ones(1,M);
     RR = interp1(R(:,1),R(:,2),A(2,:));
-    Z1_new((A(2,:)-A_new)./(depth_diff(1).*RR)<=1.0850) = 2;
-    Z1_new((A(2,:)-A_new)./(depth_diff(1).*RR)<=0.9220) = 1;
+    Z1_new((A(2,:)-A_new)./(depth_diff(1).*RR)<=1./0.9220) = 2;
+    Z1_new((A(2,:)-A_new)./(depth_diff(1).*RR)<=1./1.0850) = 1;
     
     LL_old = zeros(1,M);
     LL_new = zeros(1,M);
@@ -118,8 +118,8 @@ for iters = 1:max_iters
     LL_old(TT_old<=0) = -inf;
     LL_new(TT_new<=0) = -inf;
     
-    LL_old(TT_old<data.lower_sedrate|TT_old>data.upper_sedrate) = -inf;
-    LL_new(TT_new<data.lower_sedrate|TT_new>data.upper_sedrate) = -inf;
+    LL_old(TT_old>1./data.lower_sedrate|TT_old<1./data.upper_sedrate) = -inf;
+    LL_new(TT_new>1./data.lower_sedrate|TT_new<1./data.upper_sedrate) = -inf;
     
     LL_new = LL_new - 0.5*(A_new-A_old).^2./((A(2,:)-A_new+1).^2/64) - log((A(2,:)-A_new+1)/8);
     LL_old = LL_old - 0.5*(A_new-A_old).^2./((A(2,:)-A_old+1).^2/64) - log((A(2,:)-A_old+1)/8);
@@ -204,14 +204,14 @@ for iters = 1:max_iters
     Z1_old = Z(1,:);
     Z1_new = 3*ones(1,M);
     RR = interp1(R(:,1),R(:,2),A_new);
-    Z1_new((A_new-A(1,:))./(depth_diff(1).*RR)<=1.0850) = 2;
-    Z1_new((A_new-A(1,:))./(depth_diff(1).*RR)<=0.9220) = 1;
+    Z1_new((A_new-A(1,:))./(depth_diff(1).*RR)<=1./0.9220) = 2;
+    Z1_new((A_new-A(1,:))./(depth_diff(1).*RR)<=1./1.0850) = 1;
     
     Z2_old = Z(2,:);
     Z2_new = 3*ones(1,M);
     RR = interp1(R(:,1),R(:,2),A(3,:));
-    Z2_new((A(3,:)-A_new)./(depth_diff(2).*RR)<=1.0850) = 2;
-    Z2_new((A(3,:)-A_new)./(depth_diff(2).*RR)<=0.9220) = 1;
+    Z2_new((A(3,:)-A_new)./(depth_diff(2).*RR)<=1./0.9220) = 2;
+    Z2_new((A(3,:)-A_new)./(depth_diff(2).*RR)<=1./1.0850) = 1;
     
     LL_old = zeros(1,M);
     LL_new = zeros(1,M);
@@ -241,8 +241,8 @@ for iters = 1:max_iters
     LL_old(TT_old<=0) = -inf;
     LL_new(TT_new<=0) = -inf;
     
-    LL_old(TT_old<data.lower_sedrate|TT_old>data.upper_sedrate) = -inf;
-    LL_new(TT_new<data.lower_sedrate|TT_new>data.upper_sedrate) = -inf;
+    LL_old(TT_old>1./data.lower_sedrate|TT_old<1./data.upper_sedrate) = -inf;
+    LL_new(TT_new>1./data.lower_sedrate|TT_new<1./data.upper_sedrate) = -inf;
     
     RR_old = interp1(R(:,1),R(:,2),A_old);
     RR_new = interp1(R(:,1),R(:,2),A_new);
@@ -256,8 +256,8 @@ for iters = 1:max_iters
     LL_old(TT_old<=0) = -inf;
     LL_new(TT_new<=0) = -inf;
     
-    LL_old(TT_old<data.lower_sedrate|TT_old>data.upper_sedrate) = -inf;
-    LL_new(TT_new<data.lower_sedrate|TT_new>data.upper_sedrate) = -inf;
+    LL_old(TT_old>1./data.lower_sedrate|TT_old<1./data.upper_sedrate) = -inf;
+    LL_new(TT_new>1./data.lower_sedrate|TT_new<1./data.upper_sedrate) = -inf;
     
     LL_old(Z2_old==1) = LL_old(Z2_old==1) - data.ACC_CONTRACTION;
     LL_old(Z2_old==2) = LL_old(Z2_old==2) - data.ACC_STEADY;
@@ -348,14 +348,14 @@ for iters = 1:max_iters
     Z_prev_old = Z(index_0_prev,:);
     Z_prev_new = 3*ones(N0,M);
     RR = interp1(R(:,1),R(:,2),A_new);
-    Z_prev_new((A_new-A(index_0_prev,:))./(depth_diff(index_0_prev).*RR)<=1.0850) = 2;
-    Z_prev_new((A_new-A(index_0_prev,:))./(depth_diff(index_0_prev).*RR)<=0.9220) = 1;
+    Z_prev_new((A_new-A(index_0_prev,:))./(depth_diff(index_0_prev).*RR)<=1./0.9220) = 2;
+    Z_prev_new((A_new-A(index_0_prev,:))./(depth_diff(index_0_prev).*RR)<=1./1.0850) = 1;
     
     Z_old = Z(index_0,:);
     Z_new = 3*ones(N0,M);
     RR = interp1(R(:,1),R(:,2),A(index_0_next,:));
-    Z_new((A(index_0_next,:)-A_new)./(depth_diff(index_0).*RR)<=1.0850) = 2;
-    Z_new((A(index_0_next,:)-A_new)./(depth_diff(index_0).*RR)<=0.9220) = 1;
+    Z_new((A(index_0_next,:)-A_new)./(depth_diff(index_0).*RR)<=1./0.9220) = 2;
+    Z_new((A(index_0_next,:)-A_new)./(depth_diff(index_0).*RR)<=1./1.0850) = 1;
     
     LL_old = zeros(N0,M);
     LL_new = zeros(N0,M);
@@ -392,8 +392,8 @@ for iters = 1:max_iters
     LL_old(TT_old<=0) = -inf;
     LL_new(TT_new<=0) = -inf;
     
-    LL_old(TT_old<data.lower_sedrate|TT_old>data.upper_sedrate) = -inf;
-    LL_new(TT_new<data.lower_sedrate|TT_new>data.upper_sedrate) = -inf;
+    LL_old(TT_old>1./data.lower_sedrate|TT_old<1./data.upper_sedrate) = -inf;
+    LL_new(TT_new>1./data.lower_sedrate|TT_new<1./data.upper_sedrate) = -inf;
     
     RR_old = interp1(R(:,1),R(:,2),A_old);
     RR_new = interp1(R(:,1),R(:,2),A_new);
@@ -407,8 +407,8 @@ for iters = 1:max_iters
     LL_old(TT_old<=0) = -inf;
     LL_new(TT_new<=0) = -inf;
     
-    LL_old(TT_old<data.lower_sedrate|TT_old>data.upper_sedrate) = -inf;
-    LL_new(TT_new<data.lower_sedrate|TT_new>data.upper_sedrate) = -inf;
+    LL_old(TT_old>1./data.lower_sedrate|TT_old<1./data.upper_sedrate) = -inf;
+    LL_new(TT_new>1./data.lower_sedrate|TT_new<1./data.upper_sedrate) = -inf;
     
     LL_old(Z_old==1) = LL_old(Z_old==1) - data.ACC_CONTRACTION;
     LL_old(Z_old==2) = LL_old(Z_old==2) - data.ACC_STEADY;
@@ -537,14 +537,14 @@ for iters = 1:max_iters
     Z_prev_old = Z(index_1_prev,:);
     Z_prev_new = 3*ones(N1,M);
     RR = interp1(R(:,1),R(:,2),A_new);
-    Z_prev_new((A_new-A(index_1_prev,:))./(depth_diff(index_1_prev).*RR)<=1.0850) = 2;
-    Z_prev_new((A_new-A(index_1_prev,:))./(depth_diff(index_1_prev).*RR)<=0.9220) = 1;
+    Z_prev_new((A_new-A(index_1_prev,:))./(depth_diff(index_1_prev).*RR)<=1./0.9220) = 2;
+    Z_prev_new((A_new-A(index_1_prev,:))./(depth_diff(index_1_prev).*RR)<=1./1.0850) = 1;
     
     Z_old = Z(index_1,:);
     Z_new = 3*ones(N1,M);
     RR = interp1(R(:,1),R(:,2),A(index_1_next,:));
-    Z_new((A(index_1_next,:)-A_new)./(depth_diff(index_1).*RR)<=1.0850) = 2;
-    Z_new((A(index_1_next,:)-A_new)./(depth_diff(index_1).*RR)<=0.9220) = 1;
+    Z_new((A(index_1_next,:)-A_new)./(depth_diff(index_1).*RR)<=1./0.9220) = 2;
+    Z_new((A(index_1_next,:)-A_new)./(depth_diff(index_1).*RR)<=1./1.0850) = 1;
     
     LL_old = zeros(N1,M);
     LL_new = zeros(N1,M);
@@ -581,8 +581,8 @@ for iters = 1:max_iters
     LL_old(TT_old<=0) = -inf;
     LL_new(TT_new<=0) = -inf;
     
-    LL_old(TT_old<data.lower_sedrate|TT_old>data.upper_sedrate) = -inf;
-    LL_new(TT_new<data.lower_sedrate|TT_new>data.upper_sedrate) = -inf;
+    LL_old(TT_old>1./data.lower_sedrate|TT_old<1./data.upper_sedrate) = -inf;
+    LL_new(TT_new>1./data.lower_sedrate|TT_new<1./data.upper_sedrate) = -inf;
     
     RR_old = interp1(R(:,1),R(:,2),A_old);
     RR_new = interp1(R(:,1),R(:,2),A_new);
@@ -596,8 +596,8 @@ for iters = 1:max_iters
     LL_old(TT_old<=0) = -inf;
     LL_new(TT_new<=0) = -inf;
     
-    LL_old(TT_old<data.lower_sedrate|TT_old>data.upper_sedrate) = -inf;
-    LL_new(TT_new<data.lower_sedrate|TT_new>data.upper_sedrate) = -inf;
+    LL_old(TT_old>1./data.lower_sedrate|TT_old<1./data.upper_sedrate) = -inf;
+    LL_new(TT_new>1./data.lower_sedrate|TT_new<1./data.upper_sedrate) = -inf;
     
     LL_old(Z_old==1) = LL_old(Z_old==1) - data.ACC_CONTRACTION;
     LL_old(Z_old==2) = LL_old(Z_old==2) - data.ACC_STEADY;
@@ -726,14 +726,14 @@ for iters = 1:max_iters
     Z_prev_old = Z(index_2_prev,:);
     Z_prev_new = 3*ones(N2,M);
     RR = interp1(R(:,1),R(:,2),A_new);
-    Z_prev_new((A_new-A(index_2_prev,:))./(depth_diff(index_2_prev).*RR)<=1.0850) = 2;
-    Z_prev_new((A_new-A(index_2_prev,:))./(depth_diff(index_2_prev).*RR)<=0.9220) = 1;
+    Z_prev_new((A_new-A(index_2_prev,:))./(depth_diff(index_2_prev).*RR)<=1./0.9220) = 2;
+    Z_prev_new((A_new-A(index_2_prev,:))./(depth_diff(index_2_prev).*RR)<=1./1.0850) = 1;
     
     Z_old = Z(index_2,:);
     Z_new = 3*ones(N2,M);
     RR = interp1(R(:,1),R(:,2),A(index_2_next,:));
-    Z_new((A(index_2_next,:)-A_new)./(depth_diff(index_2).*RR)<=1.0850) = 2;
-    Z_new((A(index_2_next,:)-A_new)./(depth_diff(index_2).*RR)<=0.9220) = 1;
+    Z_new((A(index_2_next,:)-A_new)./(depth_diff(index_2).*RR)<=1./0.9220) = 2;
+    Z_new((A(index_2_next,:)-A_new)./(depth_diff(index_2).*RR)<=1./1.0850) = 1;
     
     LL_old = zeros(N2,M);
     LL_new = zeros(N2,M);
@@ -770,8 +770,8 @@ for iters = 1:max_iters
     LL_old(TT_old<=0) = -inf;
     LL_new(TT_new<=0) = -inf;
     
-    LL_old(TT_old<data.lower_sedrate|TT_old>data.upper_sedrate) = -inf;
-    LL_new(TT_new<data.lower_sedrate|TT_new>data.upper_sedrate) = -inf;
+    LL_old(TT_old>1./data.lower_sedrate|TT_old<1./data.upper_sedrate) = -inf;
+    LL_new(TT_new>1./data.lower_sedrate|TT_new<1./data.upper_sedrate) = -inf;
     
     RR_old = interp1(R(:,1),R(:,2),A_old);
     RR_new = interp1(R(:,1),R(:,2),A_new);
@@ -785,8 +785,8 @@ for iters = 1:max_iters
     LL_old(TT_old<=0) = -inf;
     LL_new(TT_new<=0) = -inf;
     
-    LL_old(TT_old<data.lower_sedrate|TT_old>data.upper_sedrate) = -inf;
-    LL_new(TT_new<data.lower_sedrate|TT_new>data.upper_sedrate) = -inf;
+    LL_old(TT_old>1./data.lower_sedrate|TT_old<1./data.upper_sedrate) = -inf;
+    LL_new(TT_new>1./data.lower_sedrate|TT_new<1./data.upper_sedrate) = -inf;
     
     LL_old(Z_old==1) = LL_old(Z_old==1) - data.ACC_CONTRACTION;
     LL_old(Z_old==2) = LL_old(Z_old==2) - data.ACC_STEADY;
@@ -915,8 +915,8 @@ for iters = 1:max_iters
     ZN1_old = Z(N-1,:);
     ZN1_new = 3*ones(1,M);
     RR = interp1(R(:,1),R(:,2),A_new);
-    ZN1_new((A_new-A(N-1,:))./(depth_diff(N-1).*RR)<=1.0850) = 2;
-    ZN1_new((A_new-A(N-1,:))./(depth_diff(N-1).*RR)<=0.9220) = 1;
+    ZN1_new((A_new-A(N-1,:))./(depth_diff(N-1).*RR)<=1./0.9220) = 2;
+    ZN1_new((A_new-A(N-1,:))./(depth_diff(N-1).*RR)<=1./1.0850) = 1;
     
     LL_old = zeros(1,M);
     LL_new = zeros(1,M);
@@ -946,8 +946,8 @@ for iters = 1:max_iters
     LL_old(TT_old<=0) = -inf;
     LL_new(TT_new<=0) = -inf;
     
-    LL_old(TT_old<data.lower_sedrate|TT_old>data.upper_sedrate) = -inf;
-    LL_new(TT_new<data.lower_sedrate|TT_new>data.upper_sedrate) = -inf;
+    LL_old(TT_old>1./data.lower_sedrate|TT_old<1./data.upper_sedrate) = -inf;
+    LL_new(TT_new>1./data.lower_sedrate|TT_new<1./data.upper_sedrate) = -inf;
     
     LL_new = LL_new - 0.5*(A_new-A_old).^2./((A_new-A(N-1,:)+1).^2/64) - log((A_new-A(N-1,:)+1)/8);
     LL_old = LL_old - 0.5*(A_new-A_old).^2./((A_old-A(N-1,:)+1).^2/64) - log((A_old-A(N-1,:)+1)/8);

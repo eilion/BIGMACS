@@ -46,8 +46,8 @@ for ll = 1:L
     for m = 1:M
         RR(:,m) = interp1(R(:,1),R(:,2),X(2:end,m));
     end
-    ZZ((X(2:end,:)-X(1:end-1,:))./depth_diff./RR<1.0850) = 2;
-    ZZ((X(2:end,:)-X(1:end-1,:))./depth_diff./RR<0.9220) = 1;
+    ZZ((X(2:end,:)-X(1:end-1,:))./depth_diff./RR<1./0.9220) = 2;
+    ZZ((X(2:end,:)-X(1:end-1,:))./depth_diff./RR<1./1.0850) = 1;
     ZZ((X(2:end,:)==X(1:end-1,:))) = 4;
     Z = zeros(N,M);
     Z(1:N-1,:) = ZZ;

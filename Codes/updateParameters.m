@@ -5,7 +5,7 @@ L = length(data);
 TT = param.tran_param;
 
 if strcmp(setting.IsLearn_transition,'yes') == 1
-    Grid = [0.9220,1.0850];
+    Grid = [1./1.0850,1./0.9220];
     phi_I = zeros(L,3);
     phi_C = zeros(L,3);
     phi_M = zeros(L,3);
