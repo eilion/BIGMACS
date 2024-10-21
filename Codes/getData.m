@@ -469,15 +469,13 @@ for ll = 1:L
         data(ll).res = inf;
     end
     
-    if isinf(data(ll).upper_sedrate) || isnan(data(ll).upper_sedrate)
-        data(ll).lower_sedrate = -inf;
-    else
-        data(ll).lower_sedrate = 1/data(ll).upper_sedrate;
-    end
-    if isinf(data(ll).lower_sedrate) || isnan(data(ll).lower_sedrate)
+    
+    if isnan(data(ll).upper_sedrate)
         data(ll).upper_sedrate = inf;
-    else
-        data(ll).upper_sedrate = 1/data(ll).lower_sedrate;
+    end
+
+    if isnan(data(ll).lower_sedrate) || (data(ll).lower_sedrate<0)
+        data(ll).lower_sedrate = 0;
     end
     
     if isnan(data(ll).initial_scale)
