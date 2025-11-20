@@ -275,6 +275,8 @@ elseif strcmp(inputMode,'stacking')
     
     setting = rmfield(setting,'st');
     setting = rmfield(setting,'ed');
+
+    kernel_param = param;
     
     param = rmfield(param,'eta');
     param = rmfield(param,'xi');
@@ -387,7 +389,7 @@ elseif strcmp(inputMode,'stacking')
         
         
         fileID = [path,'/results.mat'];
-        save(fileID,'summary','CI_C14','target','setting_alignment','setting_stacking','setting_core','hyperparameter');
+        save(fileID,'summary','CI_C14','target','setting_alignment','setting_stacking','setting_core','hyperparameter','kernel_param');
     else
         
         MIN = inf;
@@ -414,7 +416,7 @@ elseif strcmp(inputMode,'stacking')
         
         
         fileID = [path,'/results.mat'];
-        save(fileID,'summary','target','setting_alignment','setting_stacking','setting_core','hyperparameter');
+        save(fileID,'summary','target','setting_alignment','setting_stacking','setting_core','hyperparameter','kernel_param');
     end
     
     
@@ -451,6 +453,7 @@ elseif strcmp(inputMode,'stacking')
 end
 
 savePath = path;
+
 
 
 end
