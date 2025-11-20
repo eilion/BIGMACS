@@ -598,6 +598,7 @@ for ll = 1:L
             end
         end
     else
+        T = size(target.stack,1);
         data(ll).R = [target.stack(:,1),1/initial_average_sed_rate*ones(T,1)];
     end
     
@@ -760,6 +761,7 @@ for ll = 1:L
     data_ps(ll).suggested_age = sugg_age(1:m,:);
     data_ps(ll).index = index(1:m);
 end
+
 
 
 end
