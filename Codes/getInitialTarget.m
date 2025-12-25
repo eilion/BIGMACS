@@ -116,7 +116,7 @@ for m = 1:4
         
         Cal_age = cal_curve{m}(:,1)/1000;
         C14_age = cal_curve{m}(:,2)/1000;
-        C14_error = cal_curve{m}(:,5)/1000;
+        C14_error = cal_curve{m}(:,3)/1000;
         
         Cal_age_add = [Cal_age;age(end)];
         C14_age_add = [C14_age;(age(end)-Cal_age(end))*(C14_age(end)-C14_age(1))/(Cal_age(end)-Cal_age(1))+C14_age(end)];
